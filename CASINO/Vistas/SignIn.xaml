@@ -1,0 +1,94 @@
+﻿<Window x:Class="CASINO.Vistas.SignIn"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CASINO.Vistas"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="SignIn" Height="455" Width="517"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        AllowsTransparency="True" 
+        MouseDown="Window_MouseDown"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        >
+    <Border Background="#4B4B4B" BorderBrush="#ffff" BorderThickness="3"  CornerRadius="20">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="55"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid Margin="0,0,0,19">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="25"/>
+                    <ColumnDefinition Width="25" />
+                </Grid.ColumnDefinitions>
+                <!-- Botón para minimizar-->
+                <TextBlock  Grid.Column="0" Text="Sign Up" Margin="50,0,0,0"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <Button x:Name="btn_minimizar"  Foreground="Black" Click="btn_minimizar_Click" Cursor="Hand"  Grid.Column="1">
+                    <TextBlock Text="-" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                    <Button.Template>
+                        <ControlTemplate  TargetType="Button">
+                            <Border Width="18" Height="18" CornerRadius="29"
+                                    Background="AliceBlue"></Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <!-- Botón para cerrar-->
+                <Button x:Name="btn_cerrar" 
+                        Foreground="#ffff" 
+                        Click="btn_cerrar_Click" 
+                        Content="X" 
+                        Cursor="Hand" 
+                        TextBlock.TextAlignment="Center"
+                        Grid.Column="2">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border Width="18" Height="18" CornerRadius="29"
+                                    Background="#8B0000"></Border>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
+            <Line Grid.RowSpan="2" X1="125" Y1="0" X2="125" Y2="455" Stroke="#fff" StrokeThickness="1" VerticalAlignment="Top"/>
+            <!--Texto User Name-->
+            <TextBlock FontSize="29"  FontFamily="Alkatra"  Text="User Name" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="166,39,0,0"/>
+            <!--Input User Name-->
+            <TextBox 
+            Grid.Row="1"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="166,93,0,0"
+            x:Name="UserNameBox"
+            Width="202"
+            materialDesign:HintAssist.Hint="User Name"
+            materialDesign:TextFieldAssist.HasClearButton="True"/>
+            <!--Texto password-->
+            <TextBlock FontSize="29"  FontFamily="Alkatra"  Text="Password" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,143,0,0"/>
+            <!--Input password-->
+            <TextBox
+            x:Name="UserPasswordBox"
+            materialDesign:HintAssist.HelperText="At least 8 characters"
+            materialDesign:HintAssist.Hint="Password"
+            materialDesign:TextFieldAssist.HasClearButton="True" Margin="166,197,143,161" Grid.Row="1" />
+            <!--Boton Sign In-->
+            <Button
+                Grid.Row="1"
+                x:Name="Btn_Sign"
+                Click="Btn_Sign_Click"
+                materialDesign:ButtonAssist.CornerRadius="25"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Background="AntiqueWhite"
+                Foreground="#000"
+                ToolTip="MaterialDesignRaisedDarkButton with Round Corners" Margin="149,280,123,82">
+                <TextBlock
+                 FontFamily="Akatra"
+                 Text="Sign In" />
+            </Button>
+        </Grid>
+    </Border>
+</Window>
