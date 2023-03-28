@@ -14,7 +14,7 @@ namespace CASINO.Clases
         public static int Saldo { get; set; }
         public static void AgregarJugador(Jugador jugador)
         {
-            NpgsqlConnection conexion = conx.establecerConexion();
+            NpgsqlConnection conexion = conx.EstablecerConexion();
             var sentenciaAgregar = "INSERT INTO usuarios (nombre, clave, email,edad,dni) VALUES('" + jugador.Nombre + "', '" + jugador.Clave + "', '" + jugador.Email + "'" + "," +
             "'" + jugador.Edad + "', '" + jugador.Dni + "')";
             NpgsqlCommand comando = new NpgsqlCommand(sentenciaAgregar, conexion);

@@ -1,0 +1,202 @@
+﻿<Window x:Class="CASINO.Vistas.CreateAccount"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CASINO.Vistas"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="Create Account" Height="455" Width="517"
+        ResizeMode="NoResize"
+        Background="Transparent"
+        AllowsTransparency="True" 
+        MouseDown="Window_MouseDown"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None">
+    <Border Background="#292929"
+            CornerRadius="20" 
+            BorderBrush="#FFC107" 
+            BorderThickness="3">
+
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="410"/>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <!--Titulo ventana-->
+            <TextBlock Text="Create your new account" 
+                       FontFamily="Alkatra"
+                       Grid.Column="0"
+                       Grid.ColumnSpan="2"
+                       Width="300"
+                       Foreground="#ffff"
+                       Margin="100,0,0,0" 
+                       FontSize="18" 
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"/>
+            <!--Boton Minimizar-->
+            <Button x:Name="btn_minimizar"
+                    Click="btn_minimizar_Click"
+                    Cursor="Hand"  
+                    Grid.Column="1"
+                    Grid.ColumnSpan="2"
+                    Margin="15,0,0,0">
+                <Button.Template>
+                    <ControlTemplate
+                        TargetType="Button">
+                        <Border 
+                        Width="18" 
+                        Height="18" 
+                        CornerRadius="29"
+                        Background="AliceBlue"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <!-- Botón para cerrar-->
+            <Button 
+            x:Name="btn_cerrar" 
+            Click="btn_cerrar_Click"
+            Cursor="Hand" 
+            Grid.Column="2"
+            Margin="13,0,0,0">
+                <Button.Template>
+                    <ControlTemplate 
+                        TargetType="Button">
+                        <Border 
+                        Width="18" 
+                        Height="18"
+                        CornerRadius="29"
+                        Background="#8B0000"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <!--Input nombre usuario-->
+            <TextBox
+            x:Name="UserNameBox"
+            VerticalAlignment="Center"
+            materialDesign:HintAssist.Hint="User Name"
+            FontFamily="Alkatra"
+            Grid.Row="1"
+            materialDesign:HintAssist.Foreground="#fff"
+            materialDesign:TextFieldAssist.UnderlineBrush="#fff"
+            Margin="23,3,3,3"    
+            Foreground="#ffff"
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <!--Carita validación nombre usuario-->
+            <ToggleButton
+            x:Name="carita_user"
+            Grid.Row="1"
+            Grid.Column="1"
+             materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=EmoticonHappy}"
+             Content="{materialDesign:PackIcon Kind=EmoticonSadOutline}"
+             Style="{StaticResource MaterialDesignActionToggleButton}"
+             Background="#F44336 "
+             ToolTip="MaterialDesignActionLightToggleButton"
+             IsEnabled="False"  
+                />
+            <!--Input email-->
+            <TextBox
+            x:Name="UserEmailBox"
+            VerticalAlignment="Center"
+            materialDesign:HintAssist.Hint="Email"
+            FontFamily="Alkatra"
+            Grid.Row="2"
+            materialDesign:HintAssist.Foreground="#fff"
+            materialDesign:TextFieldAssist.UnderlineBrush="#fff"
+            Margin="23,3,3,3"    
+            Foreground="#ffff"
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <!--Carita validación email-->
+            <ToggleButton
+            x:Name="carita_email"
+            Grid.Row="2"
+            Grid.Column="1"
+            materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=EmoticonHappy}"
+            Content="{materialDesign:PackIcon Kind=EmoticonSadOutline}"
+            Style="{StaticResource MaterialDesignActionToggleButton}"
+            Background="#F44336 "
+            ToolTip="MaterialDesignActionLightToggleButton"
+            IsEnabled="False"  
+                />
+            <!--Input clave usuario-->
+            <PasswordBox
+            x:Name="UserPasswordBox"
+            FontFamily="Alkatra"
+            Grid.Row="3"
+            Margin="23,3,3,19" 
+            Foreground="#fff"
+            materialDesign:HintAssist.Foreground="#fff"
+            materialDesign:HintAssist.Hint="Password"
+            materialDesign:TextFieldAssist.UnderlineBrush="#fff"
+            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+            <!--Carita validación clave usuario-->
+            <ToggleButton
+            x:Name="carita_password"
+            Grid.Row="3"
+            Grid.Column="1"
+            materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=EmoticonHappy}"
+            Content="{materialDesign:PackIcon Kind=EmoticonSadOutline}"
+            Style="{StaticResource MaterialDesignActionToggleButton}"
+            Background="#F44336 "
+            ToolTip="MaterialDesignActionLightToggleButton"
+            IsEnabled="False"  
+                />
+            <!--Input Fecha-->
+            <DatePicker
+            Grid.Row="4"
+            Margin="23,3,293,10" 
+            Foreground="#ffff"
+            Width="90"
+            materialDesign:HintAssist.Hint="Pick Date"
+            materialDesign:TextFieldAssist.HasClearButton="True"
+            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+            <!--Input dni-->
+            <TextBox
+            x:Name="UserDniBox"
+            VerticalAlignment="Center"
+            materialDesign:HintAssist.Hint="DNI"
+            FontFamily="Alkatra"
+            Grid.Row="5"
+            materialDesign:HintAssist.Foreground="#fff"
+            materialDesign:TextFieldAssist.UnderlineBrush="#fff"
+            Margin="23,3,3,3"    
+            Foreground="#ffff"
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <!--Carita validación dni-->
+            <ToggleButton
+            x:Name="carita_dni"
+            Grid.Row="5"
+            Grid.Column="1"
+            materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=EmoticonHappy}"
+            Content="{materialDesign:PackIcon Kind=EmoticonSadOutline}"
+            Style="{StaticResource MaterialDesignActionToggleButton}"
+            Background="#F44336 "
+            ToolTip="MaterialDesignActionLightToggleButton"
+            IsEnabled="False"  
+                />
+            <!--Boton crear cuenta-->
+            <Button
+                x:Name="Btn_Crear_Cuenta"
+                Click="Btn_Crear_Cuenta_Click"
+                Grid.Row="6"
+                Width="250"
+                BorderBrush="#F44336"
+                BorderThickness="0.7"
+                materialDesign:ButtonAssist.CornerRadius="29"
+                Background="#FFC107 "
+                ToolTip="MaterialDesignRaisedButton with Round Corners">
+                <TextBlock Text="Create Account" />
+            </Button>
+        </Grid>
+    </Border>
+</Window>

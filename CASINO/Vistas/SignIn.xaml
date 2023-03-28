@@ -14,10 +14,10 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         >
-    <Border Background="#4B4B4B" BorderBrush="#ffff" BorderThickness="3"  CornerRadius="20">
+    <Border Background="#292929" BorderBrush="#FFC107" BorderThickness="3"  CornerRadius="20">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="55"/>
+                <RowDefinition Height="45"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
@@ -28,13 +28,16 @@
                     <ColumnDefinition Width="25" />
                 </Grid.ColumnDefinitions>
                 <!-- Botón para minimizar-->
-                <TextBlock  Grid.Column="0" Text="Sign Up" Margin="50,0,0,0"  HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <TextBlock  Grid.Column="0" Foreground="White" FontFamily="Alkatra" FontSize="20" Text="Sign Up" Margin="223,-1,0,0"  HorizontalAlignment="Left" VerticalAlignment="Top"></TextBlock>
                 <Button x:Name="btn_minimizar"  Foreground="Black" Click="btn_minimizar_Click" Cursor="Hand"  Grid.Column="1">
                     <TextBlock Text="-" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
                     <Button.Template>
                         <ControlTemplate  TargetType="Button">
-                            <Border Width="18" Height="18" CornerRadius="29"
-                                    Background="AliceBlue"></Border>
+                            <Border 
+                                Width="18" 
+                                Height="18" 
+                                CornerRadius="29"
+                                Background="AliceBlue"></Border>
                         </ControlTemplate>
                     </Button.Template>
                 </Button>
@@ -54,27 +57,69 @@
                     </Button.Template>
                 </Button>
             </Grid>
-            <Line Grid.RowSpan="2" X1="125" Y1="0" X2="125" Y2="455" Stroke="#fff" StrokeThickness="1" VerticalAlignment="Top"/>
+            <Line Grid.RowSpan="2" X1="125" Y1="0" X2="125" Y2="455" Stroke=" #F44336" StrokeThickness="1" VerticalAlignment="Top"/>
             <!--Texto User Name-->
-            <TextBlock FontSize="29"  FontFamily="Alkatra"  Text="User Name" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="166,39,0,0"/>
+            <TextBlock FontSize="29" Foreground="white" FontFamily="Alkatra"  Text="User Name" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="163,54,0,0"/>
+            <!--Error Nombre Usuario-->
+            <TextBlock
+                       x:Name="error1"
+                       Foreground="#F44336"
+                       FontSize="14"
+                       FontFamily="Alkatra"  
+                       Text="The user name is empty" 
+                       Grid.Row="1" 
+                       Grid.Column="0" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Top" 
+                       Margin="166,123,0,0"
+                       Visibility="Hidden"
+                       />
             <!--Input User Name-->
             <TextBox 
+                Foreground="White"
             Grid.Row="1"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Margin="166,93,0,0"
             x:Name="UserNameBox"
-            Width="202"
+            Width="263"
             materialDesign:HintAssist.Hint="User Name"
             materialDesign:TextFieldAssist.HasClearButton="True"/>
             <!--Texto password-->
-            <TextBlock FontSize="29"  FontFamily="Alkatra"  Text="Password" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,143,0,0"/>
+            <TextBlock FontSize="29" 
+                       FontFamily="Alkatra"  
+                       Text="Password" 
+                       Grid.Row="1" 
+                       Grid.Column="0" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Top" 
+                       Margin="165,155,0,0"
+                       Foreground="White"
+                       />
+            <!--Error clave-->
+            <TextBlock
+                       x:Name="error2"
+                       Foreground="#F44336"
+                       FontSize="14"
+                       FontFamily="Alkatra"  
+                       Text="Please enter your password in the password field" 
+                       Grid.Row="1" 
+                       Grid.Column="0" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Top" 
+                       Margin="165,241,0,0" Height="42"
+                        Width="298"
+                        Visibility="Hidden"
+                       />
             <!--Input password-->
-            <TextBox
+            <PasswordBox
             x:Name="UserPasswordBox"
             materialDesign:HintAssist.HelperText="At least 8 characters"
+            Foreground="White"
             materialDesign:HintAssist.Hint="Password"
-            materialDesign:TextFieldAssist.HasClearButton="True" Margin="166,197,143,161" Grid.Row="1" />
+            materialDesign:TextFieldAssist.HasClearButton="True" 
+            Margin="166,197,82,182" 
+            Grid.Row="1"/>
             <!--Boton Sign In-->
             <Button
                 Grid.Row="1"
@@ -82,13 +127,33 @@
                 Click="Btn_Sign_Click"
                 materialDesign:ButtonAssist.CornerRadius="25"
                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                Background="AntiqueWhite"
-                Foreground="#000"
-                ToolTip="MaterialDesignRaisedDarkButton with Round Corners" Margin="149,280,123,82">
+                Background="#FFC107"
+                Foreground="#FFF"
+                BorderThickness="0.6"
+                BorderBrush="#F44336"
+                ToolTip="MaterialDesignRaisedDarkButton with Round Corners" Margin="178,282,94,90">
                 <TextBlock
                  FontFamily="Akatra"
                  Text="Sign In" />
             </Button>
+            <!--Boton crear cuenta nueva-->
+            <Button
+                Grid.Row="1"
+                x:Name="Btn_Create_Account"
+                FontSize="15"
+                Cursor="Hand"
+                Click="Btn_Create_Account_Click"
+                materialDesign:ButtonAssist.CornerRadius="25"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Background="Transparent"
+                BorderThickness="0"
+                Foreground="Green"
+                ToolTip="MaterialDesignRaisedDarkButton with Round Corners" Margin="200,362,112,10">
+                <TextBlock
+                 FontFamily="Akatra"
+                 Text="Create account" />
+            </Button>
         </Grid>
+
     </Border>
 </Window>

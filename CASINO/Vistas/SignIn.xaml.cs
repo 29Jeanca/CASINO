@@ -3,6 +3,7 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,12 +23,10 @@ namespace CASINO.Vistas
     /// </summary>
     public partial class SignIn : Window
     {
-        //Ambas variables son para desactivar el label del error
-        public bool error1 = false;
-        public bool error2 = false;
         //Instancia para la conexión a la base de datos
         public string nombreUsuario = "";
         public string claveUsuario = "";
+        public bool validacion = false;
         public ConexionBD conx = new ConexionBD();
         public SignIn()
         {
@@ -52,6 +51,18 @@ namespace CASINO.Vistas
         }
         public void Validacion_espacios_vacios()
         {
+            nombreUsuario = UserNameBox.Text;
+            SecureString claveUsuario = UserPasswordBox.SecurePassword;
+            string claveUsuarioString = new System.Net.NetworkCredential(string.Empty, claveUsuario).Password;
+            //Acá lo convierte en un string, para poder leer la longitud
+
+
+            if (nombreUsuario.Length <= 0 || claveUsuarioString.Length <= 0)
+            {
+                error1.Visibility = Visibility.Visible;
+                error2.Visibility = Visibility.Visible;
+                validacion = true;
+            }
 
         }
         /// <summary>
@@ -60,32 +71,60 @@ namespace CASINO.Vistas
         /// </summary>
         public void Validacion_credenciales()
         {
-            //MessageBox.Show("Entra a la validación");
-            NpgsqlConnection conexion = conx.establecerConexion();
+            NpgsqlConnection conexion = conx.EstablecerConexion();
             nombreUsuario = UserNameBox.Text;
-            claveUsuario = UserPasswordBox.Text;
-            var claveEncriptada = EncriptarClave.Encript(claveUsuario);
+            SecureString claveUsuario = UserPasswordBox.SecurePassword;//Esto saca el contenido del input de contraseña
+            string claveUsuarioString = new System.Net.NetworkCredential(string.Empty, claveUsuario).Password;//Acá lo convierte en un string, para luego poder encriptarlo
+            var claveEncriptada = EncriptarClave.Encript(claveUsuarioString);
             var sentenciaExixteUsuario = "SELECT nombre,clave FROM usuarios WHERE nombre= @susuario AND clave = @sclave";
             NpgsqlCommand comando = new NpgsqlCommand(sentenciaExixteUsuario, conexion);
             comando.Parameters.AddWithValue("@susuario", nombreUsuario);
-            comando.Parameters.AddWithValue("@sclave", claveUsuario);
+            comando.Parameters.AddWithValue("@sclave", claveEncriptada);
             NpgsqlDataReader lector = comando.ExecuteReader();
-            if (lector.Read())
-            {
-                MessageBox.Show("Funciona");
-            }
-            else
-            {
-                MessageBox.Show(nombreUsuario);
-                MessageBox.Show(claveUsuario);
 
+            try
+            {
+
+                if (lector.Read())
+                {
+                    MessageBox.Show("Welcome " + nombreUsuario);
+                    conx.CerrarConexion();
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong" + "\n" + "Check your credentials");
+                    error1.Visibility = Visibility.Visible;
+                    error2.Visibility = Visibility.Visible;
+                    conx.CerrarConexion();
+
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Something went wrong " + e.ToString());
+                conx.CerrarConexion();
             }
 
         }
 
         private void Btn_Sign_Click(object sender, RoutedEventArgs e)
         {
-            Validacion_credenciales();
+            if (validacion)
+            {
+                Validacion_espacios_vacios();
+            }
+            if (validacion == false)
+            {
+
+                Validacion_credenciales();
+            }
+        }
+
+        private void Btn_Create_Account_Click(object sender, RoutedEventArgs e)
+        {
+            CreateAccount createAccount = new CreateAccount();
+            Close();
+            createAccount.Show();
         }
     }
 }

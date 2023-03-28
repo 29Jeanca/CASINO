@@ -20,20 +20,36 @@ namespace CASINO.Clases.BaseDatos
 
         String urlConexion = "server=" + servidor + ";" + "port=" + puerto + ";" + "user id=" + usuario + ";" + "password=" + clave + ";" + "database=" + nombre_base_datos + ";";
 
-        public NpgsqlConnection establecerConexion()
+        public NpgsqlConnection EstablecerConexion()
         {
 
             try
             {
                 conexion.ConnectionString = urlConexion;
                 conexion.Open();
-                MessageBox.Show("Se conectó correctamente a la Base de datos");
 
             }
 
             catch (NpgsqlException e)
             {
                 MessageBox.Show("No se pudo conectar a la base de datos de PostgreSQL, error: " + e.ToString());
+
+            }
+
+            return conexion;
+        }
+        public NpgsqlConnection CerrarConexion()
+        {
+
+            try
+            {
+                conexion.Close();
+
+            }
+
+            catch (NpgsqlException e)
+            {
+                MessageBox.Show("No se pudo cerrar la conexion a la base de datos de PostgreSQL, error: " + e.ToString());
 
             }
 
