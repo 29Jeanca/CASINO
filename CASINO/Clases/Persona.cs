@@ -11,11 +11,11 @@ namespace CASINO.Clases
         public string Nombre { get; set; }
         public string Email { get; set; }
         public string Clave { get; set; }
-        public string Edad { get; set; }
+        public int Edad { get; set; }
         public string Dni { get; set; }
         public Persona() { }
 
-        public Persona(string Nombre, string Email, string Clave, string Edad, string Dni)
+        public Persona(string Nombre, string Email, string Clave, int Edad, string Dni)
         {
             this.Nombre = Nombre;
             this.Email = Email;
@@ -24,5 +24,6 @@ namespace CASINO.Clases
             this.Dni = Dni;
 
         }
+
     }
 }

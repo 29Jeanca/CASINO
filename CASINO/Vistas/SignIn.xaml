@@ -76,13 +76,14 @@
                        />
             <!--Input User Name-->
             <TextBox 
-                Foreground="White"
+            Foreground="White"
             Grid.Row="1"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Margin="166,93,0,0"
             x:Name="UserNameBox"
             Width="263"
+            TextChanged="UserNameBox_TextChanged"
             materialDesign:HintAssist.Hint="User Name"
             materialDesign:TextFieldAssist.HasClearButton="True"/>
             <!--Texto password-->

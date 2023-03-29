@@ -83,6 +83,7 @@
             <!--Input nombre usuario-->
             <TextBox
             x:Name="UserNameBox"
+            FontSize="16"
             VerticalAlignment="Center"
             materialDesign:HintAssist.Hint="User Name"
             FontFamily="Alkatra"
@@ -107,6 +108,7 @@
             <!--Input email-->
             <TextBox
             x:Name="UserEmailBox"
+                FontSize="16"
             VerticalAlignment="Center"
             materialDesign:HintAssist.Hint="Email"
             FontFamily="Alkatra"
@@ -131,6 +133,7 @@
             <!--Input clave usuario-->
             <PasswordBox
             x:Name="UserPasswordBox"
+            FontSize="16"
             FontFamily="Alkatra"
             Grid.Row="3"
             Margin="23,3,3,19" 
@@ -153,15 +156,28 @@
                 />
             <!--Input Fecha-->
             <DatePicker
+            x:Name="UserBithDate"
             Grid.Row="4"
+            FontSize="16"
+            Grid.ColumnSpan="3"
             Margin="23,3,293,10" 
-            Foreground="#ffff"
-            Width="90"
-            materialDesign:HintAssist.Hint="Pick Date"
+            Foreground="#F44336"
             materialDesign:TextFieldAssist.HasClearButton="True"
-            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" />
+            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" FirstDayOfWeek="Monday"/>
+            <ToggleButton
+            x:Name="carita_fecha"
+            Grid.Row="4"
+            Grid.Column="1"
+            materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=EmoticonHappy}"
+            Content="{materialDesign:PackIcon Kind=EmoticonSadOutline}"
+            Style="{StaticResource MaterialDesignActionToggleButton}"
+            Background="#F44336 "
+            ToolTip="MaterialDesignActionLightToggleButton"
+            IsEnabled="False"  
+                />
             <!--Input dni-->
             <TextBox
+                FontSize="16"
             x:Name="UserDniBox"
             VerticalAlignment="Center"
             materialDesign:HintAssist.Hint="DNI"

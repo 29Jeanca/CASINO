@@ -26,7 +26,7 @@ namespace CASINO.Vistas
         //Instancia para la conexión a la base de datos
         public string nombreUsuario = "";
         public string claveUsuario = "";
-        public bool validacion = false;
+        public bool validacion;
         public ConexionBD conx = new ConexionBD();
         public SignIn()
         {
@@ -49,7 +49,7 @@ namespace CASINO.Vistas
                 DragMove();
             }
         }
-        public void Validacion_espacios_vacios()
+        public bool Validacion_espacios_vacios()
         {
             nombreUsuario = UserNameBox.Text;
             SecureString claveUsuario = UserPasswordBox.SecurePassword;
@@ -57,11 +57,19 @@ namespace CASINO.Vistas
             //Acá lo convierte en un string, para poder leer la longitud
 
 
-            if (nombreUsuario.Length <= 0 || claveUsuarioString.Length <= 0)
+            if (string.IsNullOrEmpty(nombreUsuario))
             {
                 error1.Visibility = Visibility.Visible;
+                return true;
+            }
+            if (string.IsNullOrEmpty(claveUsuarioString))
+            {
                 error2.Visibility = Visibility.Visible;
-                validacion = true;
+                return true;
+            }
+            else
+            {
+                return false;
             }
 
         }
@@ -69,7 +77,7 @@ namespace CASINO.Vistas
         /// Validacion de credenciales, se selecciona únicamente el nombre y la clave para validarlos
         /// Luego de validados pasan a la ventana de Game
         /// </summary>
-        public void Validacion_credenciales()
+        public bool Validacion_credenciales()
         {
             NpgsqlConnection conexion = conx.EstablecerConexion();
             nombreUsuario = UserNameBox.Text;
@@ -82,42 +90,50 @@ namespace CASINO.Vistas
             comando.Parameters.AddWithValue("@sclave", claveEncriptada);
             NpgsqlDataReader lector = comando.ExecuteReader();
 
-            try
-            {
 
-                if (lector.Read())
-                {
-                    MessageBox.Show("Welcome " + nombreUsuario);
-                    conx.CerrarConexion();
-                }
-                else
-                {
-                    MessageBox.Show("Something went wrong" + "\n" + "Check your credentials");
-                    error1.Visibility = Visibility.Visible;
-                    error2.Visibility = Visibility.Visible;
-                    conx.CerrarConexion();
 
-                }
-            }
-            catch (Exception e)
+            if (lector.Read())
             {
-                MessageBox.Show("Something went wrong " + e.ToString());
+                MessageBox.Show("Welcome " + nombreUsuario);
                 conx.CerrarConexion();
+                return true;
             }
+            else
+            {
+                error1.Text = "Something went wrong check your credentials";
+                error2.Text = "Something went wrong check your credentials";
+                error1.Visibility = Visibility.Visible;
+                error2.Visibility = Visibility.Visible;
+                conx.CerrarConexion();
+                return false;
+            }
+
 
         }
 
         private void Btn_Sign_Click(object sender, RoutedEventArgs e)
         {
-            if (validacion)
-            {
-                Validacion_espacios_vacios();
-            }
-            if (validacion == false)
-            {
 
-                Validacion_credenciales();
+            try
+            {
+                if (Validacion_espacios_vacios())
+                {
+                    Validacion_espacios_vacios();
+                    return;
+                }
+                if (Validacion_credenciales())
+                {
+                    Validacion_credenciales();
+                    return;
+                }
             }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.ToString());
+                throw;
+            }
+
+
         }
 
         private void Btn_Create_Account_Click(object sender, RoutedEventArgs e)
@@ -125,6 +141,12 @@ namespace CASINO.Vistas
             CreateAccount createAccount = new CreateAccount();
             Close();
             createAccount.Show();
+        }
+
+        private void UserNameBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            error1.Visibility = Visibility.Hidden;
+            error2.Visibility = Visibility.Hidden;
         }
     }
 }
