@@ -58,15 +58,24 @@
                 </Button>
             </Grid>
             <Line Grid.RowSpan="2" X1="125" Y1="0" X2="125" Y2="455" Stroke=" #F44336" StrokeThickness="1" VerticalAlignment="Top"/>
-            <!--Texto User Name-->
-            <TextBlock FontSize="29" Foreground="white" FontFamily="Alkatra"  Text="User Name" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="163,54,0,0"/>
-            <!--Error Nombre Usuario-->
+            <!--Texto User Email-->
+            <TextBlock 
+                FontSize="29" 
+                Foreground="#fff" 
+                FontFamily="Alkatra"
+                Text="User Email"
+                Grid.Row="1"
+                Grid.Column="0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="163,54,0,0"/>
+            <!--Error Email Usuario-->
             <TextBlock
                        x:Name="error1"
                        Foreground="#F44336"
                        FontSize="14"
                        FontFamily="Alkatra"  
-                       Text="The user name is empty" 
+                       Text="The user email is empty" 
                        Grid.Row="1" 
                        Grid.Column="0" 
                        HorizontalAlignment="Left" 
@@ -74,17 +83,16 @@
                        Margin="166,123,0,0"
                        Visibility="Hidden"
                        />
-            <!--Input User Name-->
+            <!--Input User Email-->
             <TextBox 
-            Foreground="White"
+            Foreground="#fff"
             Grid.Row="1"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Margin="166,93,0,0"
-            x:Name="UserNameBox"
+            x:Name="UserEmailBox"
             Width="263"
-            TextChanged="UserNameBox_TextChanged"
-            materialDesign:HintAssist.Hint="User Name"
+            materialDesign:HintAssist.Hint="User Email"
             materialDesign:TextFieldAssist.HasClearButton="True"/>
             <!--Texto password-->
             <TextBlock FontSize="29" 

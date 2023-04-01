@@ -154,6 +154,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Fuentes\Alkatra-VariableFont_wght.ttf" />
+    <EmbeddedResource Include="Fuentes\EBGaramond-VariableFont_wght.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

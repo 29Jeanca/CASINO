@@ -24,9 +24,13 @@ namespace CASINO.Vistas
     public partial class SignIn : Window
     {
         //Instancia para la conexión a la base de datos
-        public string nombreUsuario = "";
+        public string correoUsuario = "";
         public string claveUsuario = "";
         public bool validacion;
+        string emailExpresionRegular = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
+                   + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)+)"
+                   + @"(?<=[^\.])@(([a-z0-9]+-)?[a-z0-9]+\.)*[a-z]"
+                   + @"{2,63}(\.[a-z]{2,})?$";
         public ConexionBD conx = new ConexionBD();
         public SignIn()
         {
@@ -51,13 +55,13 @@ namespace CASINO.Vistas
         }
         public bool Validacion_espacios_vacios()
         {
-            nombreUsuario = UserNameBox.Text;
+            correoUsuario = UserEmailBox.Text;
             SecureString claveUsuario = UserPasswordBox.SecurePassword;
             string claveUsuarioString = new System.Net.NetworkCredential(string.Empty, claveUsuario).Password;
             //Acá lo convierte en un string, para poder leer la longitud
 
 
-            if (string.IsNullOrEmpty(nombreUsuario))
+            if (string.IsNullOrEmpty(correoUsuario))
             {
                 error1.Visibility = Visibility.Visible;
                 return true;
@@ -80,13 +84,13 @@ namespace CASINO.Vistas
         public bool Validacion_credenciales()
         {
             NpgsqlConnection conexion = conx.EstablecerConexion();
-            nombreUsuario = UserNameBox.Text;
+            correoUsuario = UserEmailBox.Text;
             SecureString claveUsuario = UserPasswordBox.SecurePassword;//Esto saca el contenido del input de contraseña
             string claveUsuarioString = new System.Net.NetworkCredential(string.Empty, claveUsuario).Password;//Acá lo convierte en un string, para luego poder encriptarlo
             var claveEncriptada = EncriptarClave.Encript(claveUsuarioString);
-            var sentenciaExixteUsuario = "SELECT nombre,clave FROM usuarios WHERE nombre= @susuario AND clave = @sclave";
+            var sentenciaExixteUsuario = "SELECT email,clave FROM usuarios WHERE email= @semail AND clave = @sclave";
             NpgsqlCommand comando = new NpgsqlCommand(sentenciaExixteUsuario, conexion);
-            comando.Parameters.AddWithValue("@susuario", nombreUsuario);
+            comando.Parameters.AddWithValue("@semail", correoUsuario);
             comando.Parameters.AddWithValue("@sclave", claveEncriptada);
             NpgsqlDataReader lector = comando.ExecuteReader();
 
@@ -94,7 +98,7 @@ namespace CASINO.Vistas
 
             if (lector.Read())
             {
-                MessageBox.Show("Welcome " + nombreUsuario);
+                MessageBox.Show("Welcome " + correoUsuario);
                 conx.CerrarConexion();
                 return true;
             }
@@ -118,12 +122,10 @@ namespace CASINO.Vistas
             {
                 if (Validacion_espacios_vacios())
                 {
-                    Validacion_espacios_vacios();
                     return;
                 }
                 if (Validacion_credenciales())
                 {
-                    Validacion_credenciales();
                     return;
                 }
             }

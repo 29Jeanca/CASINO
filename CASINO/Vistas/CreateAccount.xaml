@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:CASINO.Vistas"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="Create Account" Height="455" Width="517"
+        Title="Create Account" Height="655" Width="517"
         ResizeMode="NoResize"
         Background="Transparent"
         AllowsTransparency="True" 
@@ -21,12 +21,12 @@
         <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="35"/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="105"/>
+                <RowDefinition  Height="105"/>
+                <RowDefinition Height="105"/>
+                <RowDefinition Height="105"/>
+                <RowDefinition Height="105"/>
+                <RowDefinition Height="105"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="410"/>
@@ -84,6 +84,7 @@
             <TextBox
             x:Name="UserNameBox"
             FontSize="16"
+                MaxLength="10"
             VerticalAlignment="Center"
             materialDesign:HintAssist.Hint="User Name"
             FontFamily="Alkatra"
@@ -92,14 +93,29 @@
             materialDesign:TextFieldAssist.UnderlineBrush="#fff"
             Margin="23,3,3,3"    
             Foreground="#ffff"
-            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewKeyUp="UserNameBox_PreviewKeyUp"/>
+            <!--ERROR USER-->
+            <TextBlock
+                x:Name="errorUser"
+                Text="The username contains numbers or has less than 4 characters"
+                Foreground="#F44336"
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                FontWeight="Bold"
+                FontSize="15"
+                Margin="10,20,-19,4"
+                FontFamily="EB Garamond"
+                Visibility="Hidden"
+ />
             <!--Carita validación nombre usuario-->
             <ToggleButton
             x:Name="carita_user"
+                Foreground="#000"
             Grid.Row="1"
             Grid.Column="1"
              materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=EmoticonHappy}"
-             Content="{materialDesign:PackIcon Kind=EmoticonSadOutline}"
+             Content="{materialDesign:PackIcon Kind=EmoticonSad}"
              Style="{StaticResource MaterialDesignActionToggleButton}"
              Background="#F44336 "
              ToolTip="MaterialDesignActionLightToggleButton"
@@ -117,14 +133,29 @@
             materialDesign:TextFieldAssist.UnderlineBrush="#fff"
             Margin="23,3,3,3"    
             Foreground="#ffff"
-            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewKeyUp="UserEmailBox_PreviewKeyUp"/>
+            <!--ERROR EMAIL-->
+            <TextBlock
+                x:Name="errorEmail"
+                Text="The user email is already in use or is invalid"
+                Foreground="#F44336"
+                Grid.Row="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                FontWeight="Bold"
+                FontSize="15"
+                Margin="0,4"
+                FontFamily="EB Garamond"
+                 Visibility="Hidden"
+/>
             <!--Carita validación email-->
             <ToggleButton
             x:Name="carita_email"
+                Foreground="#000"
             Grid.Row="2"
             Grid.Column="1"
             materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=EmoticonHappy}"
-            Content="{materialDesign:PackIcon Kind=EmoticonSadOutline}"
+            Content="{materialDesign:PackIcon Kind=EmoticonSad}"
             Style="{StaticResource MaterialDesignActionToggleButton}"
             Background="#F44336 "
             ToolTip="MaterialDesignActionLightToggleButton"
@@ -136,40 +167,72 @@
             FontSize="16"
             FontFamily="Alkatra"
             Grid.Row="3"
-            Margin="23,3,3,19" 
+            Margin="21,3,0,40" 
             Foreground="#fff"
             materialDesign:HintAssist.Foreground="#fff"
             materialDesign:HintAssist.Hint="Password"
             materialDesign:TextFieldAssist.UnderlineBrush="#fff"
-            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" />
+            Style="{StaticResource MaterialDesignFloatingHintPasswordBox}" PreviewKeyUp="UserPasswordBox_PreviewKeyUp_1" />
+            <!--ERROR CLAVE USUARIO-->
+            <TextBlock
+                x:Name="errorClave"
+                Text="The user password is empty or has less than 8 characters"
+                Foreground="#F44336"
+                Grid.Row="3"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                FontWeight="Bold"
+                FontSize="15"
+                Margin="0,2,-29,17"
+                FontFamily="EB Garamond"
+                 Visibility="Hidden"
+/>
             <!--Carita validación clave usuario-->
             <ToggleButton
             x:Name="carita_password"
             Grid.Row="3"
             Grid.Column="1"
             materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=EmoticonHappy}"
-            Content="{materialDesign:PackIcon Kind=EmoticonSadOutline}"
+            Content="{materialDesign:PackIcon Kind=EmoticonSad}"
             Style="{StaticResource MaterialDesignActionToggleButton}"
             Background="#F44336 "
             ToolTip="MaterialDesignActionLightToggleButton"
+            Foreground="#000"
             IsEnabled="False"  
                 />
             <!--Input Fecha-->
             <DatePicker
             x:Name="UserBithDate"
+            Text="Pick your birth date"
             Grid.Row="4"
             FontSize="16"
             Grid.ColumnSpan="3"
             Margin="23,3,293,10" 
             Foreground="#F44336"
             materialDesign:TextFieldAssist.HasClearButton="True"
-            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" FirstDayOfWeek="Monday"/>
+            Style="{StaticResource MaterialDesignFloatingHintDatePicker}" FirstDayOfWeek="Monday" KeyUp="UserBithDate_KeyUp" CalendarClosed="UserBithDate_CalendarClosed"/>
+            <!--ERROR FECHA-->
+            <TextBlock
+                x:Name="errorFecha"
+                Text="The user is not 18 years old or older"
+                Foreground="#F44336"
+                Grid.Row="4"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                FontWeight="Bold"
+                FontSize="15"
+                Margin="0,4"
+                FontFamily="EB Garamond"
+                Visibility="Hidden"
+/>
+            <!--CARITA FECHA-->
             <ToggleButton
             x:Name="carita_fecha"
+                Foreground="#000"
             Grid.Row="4"
             Grid.Column="1"
             materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=EmoticonHappy}"
-            Content="{materialDesign:PackIcon Kind=EmoticonSadOutline}"
+            Content="{materialDesign:PackIcon Kind=EmoticonSad}"
             Style="{StaticResource MaterialDesignActionToggleButton}"
             Background="#F44336 "
             ToolTip="MaterialDesignActionLightToggleButton"
@@ -177,6 +240,7 @@
                 />
             <!--Input dni-->
             <TextBox
+                MaxLength="10"
                 FontSize="16"
             x:Name="UserDniBox"
             VerticalAlignment="Center"
@@ -187,14 +251,30 @@
             materialDesign:TextFieldAssist.UnderlineBrush="#fff"
             Margin="23,3,3,3"    
             Foreground="#ffff"
-            Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            Style="{StaticResource MaterialDesignFloatingHintTextBox}" PreviewKeyUp="UserDniBox_PreviewKeyUp" />
+            <!--ERROR DNI-->
+            <TextBlock
+                x:Name="errorDNI"
+                Text="The DNI is already in use or is invalid"
+                Foreground="#F44336"
+                Grid.Row="5"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                FontWeight="Bold"
+                FontSize="15"
+                Margin="0,4"
+                FontFamily="EB Garamond" 
+                 Visibility="Hidden"
+                
+                />
             <!--Carita validación dni-->
             <ToggleButton
             x:Name="carita_dni"
             Grid.Row="5"
+                Foreground="#000"
             Grid.Column="1"
             materialDesign:ToggleButtonAssist.OnContent="{materialDesign:PackIcon Kind=EmoticonHappy}"
-            Content="{materialDesign:PackIcon Kind=EmoticonSadOutline}"
+            Content="{materialDesign:PackIcon Kind=EmoticonSad}"
             Style="{StaticResource MaterialDesignActionToggleButton}"
             Background="#F44336 "
             ToolTip="MaterialDesignActionLightToggleButton"
