@@ -11,7 +11,10 @@ namespace CASINO.Clases
     public class Jugador : Persona
     {
         public static ConexionBD conx = new ConexionBD();
-        public static int Saldo { get; set; }
+
+        public static string Saldo { get; set; } = "0";
+        public static string Deuda { get; set; } = "0";
+        public static bool Premium { get; set; } = false;
         public static void AgregarJugador(Jugador jugador)
         {
             NpgsqlConnection conexion = conx.EstablecerConexion();

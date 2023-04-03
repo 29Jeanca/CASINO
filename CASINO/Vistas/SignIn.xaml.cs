@@ -27,10 +27,6 @@ namespace CASINO.Vistas
         public string correoUsuario = "";
         public string claveUsuario = "";
         public bool validacion;
-        string emailExpresionRegular = @"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|"
-                   + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)+)"
-                   + @"(?<=[^\.])@(([a-z0-9]+-)?[a-z0-9]+\.)*[a-z]"
-                   + @"{2,63}(\.[a-z]{2,})?$";
         public ConexionBD conx = new ConexionBD();
         public SignIn()
         {
@@ -125,7 +121,12 @@ namespace CASINO.Vistas
                     return;
                 }
                 if (Validacion_credenciales())
+
                 {
+                    Game game = new Game();
+                    game.nombreUsuario.Text = correoUsuario;
+                    game.Show();
+                    Close();
                     return;
                 }
             }

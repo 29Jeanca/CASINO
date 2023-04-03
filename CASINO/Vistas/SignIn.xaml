@@ -20,7 +20,7 @@
                 <RowDefinition Height="45"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
+            <TextBlock x:Name="prueba" Foreground="#fff"></TextBlock>
             <Grid Margin="0,0,0,19">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />

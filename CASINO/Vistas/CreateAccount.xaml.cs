@@ -77,6 +77,9 @@ namespace CASINO.Vistas
             jugador.Edad = ConversorFechas();
             jugador.Dni = UserDniBox.Text;
         }
+        /// <summary>
+        /// Inserta los datos de los inputs en la bd
+        /// </summary>
         public void Insercion_BaseDatos()
         {
             Inicializar_Inputs();
@@ -134,6 +137,7 @@ namespace CASINO.Vistas
                 conx.CerrarConexion();
                 existenciaDni = true;
             }
+
 
         }
         /// <summary>
@@ -285,7 +289,7 @@ namespace CASINO.Vistas
             dniUsuario = UserDniBox.Text;
             ValidarExistenciaDni();
             conx.CerrarConexion();
-            if (Regex.IsMatch(dniUsuario, dniUsuarioExpresionRegular) && !existenciaDni && dniUsuario.Length >= 10)
+            if (Regex.IsMatch(dniUsuario, dniUsuarioExpresionRegular) && !existenciaDni && dniUsuario.Length >= 9)
             {
                 carita_dni.IsChecked = true;
                 caritaDni = true;

@@ -116,8 +116,14 @@
     <Compile Include="Clases\BaseDatos\EncriptarClave.cs" />
     <Compile Include="Clases\Jugador.cs" />
     <Compile Include="Clases\Persona.cs" />
+    <Compile Include="Vistas\BlackJack.xaml.cs">
+      <DependentUpon>BlackJack.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Vistas\CreateAccount.xaml.cs">
       <DependentUpon>CreateAccount.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vistas\Game.xaml.cs">
+      <DependentUpon>Game.xaml</DependentUpon>
     </Compile>
     <Compile Include="Vistas\SignIn.xaml.cs">
       <DependentUpon>SignIn.xaml</DependentUpon>
@@ -126,7 +132,15 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Vistas\BlackJack.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Vistas\CreateAccount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Vistas\Game.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -163,6 +177,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Vistas\BLACKJACK.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets" Condition="Exists('..\packages\Microsoft.Extensions.Logging.Abstractions.6.0.0\build\Microsoft.Extensions.Logging.Abstractions.targets')" />
