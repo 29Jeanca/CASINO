@@ -112,8 +112,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Clases\Baraja.cs" />
     <Compile Include="Clases\BaseDatos\ConexionBD.cs" />
     <Compile Include="Clases\BaseDatos\EncriptarClave.cs" />
+    <Compile Include="Clases\Carta.cs" />
     <Compile Include="Clases\Jugador.cs" />
     <Compile Include="Clases\Persona.cs" />
     <Compile Include="Vistas\BlackJack.xaml.cs">

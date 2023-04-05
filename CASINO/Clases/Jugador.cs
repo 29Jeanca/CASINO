@@ -12,7 +12,7 @@ namespace CASINO.Clases
     {
         public static ConexionBD conx = new ConexionBD();
 
-        public static string Saldo { get; set; } = "0";
+        public static string Saldo { get; set; } = "20000";
         public static string Deuda { get; set; } = "0";
         public static bool Premium { get; set; } = false;
         public static void AgregarJugador(Jugador jugador)

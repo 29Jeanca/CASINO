@@ -140,7 +140,7 @@
                 Foreground="#FFF"
                 BorderThickness="0.6"
                 BorderBrush="#F44336"
-                ToolTip="MaterialDesignRaisedDarkButton with Round Corners" Margin="178,282,94,90">
+                ToolTip="Sign In" Margin="178,282,94,90">
                 <TextBlock
                  FontFamily="Akatra"
                  Text="Sign In" />
@@ -157,7 +157,7 @@
                 Background="Transparent"
                 BorderThickness="0"
                 Foreground="Green"
-                ToolTip="MaterialDesignRaisedDarkButton with Round Corners" Margin="200,362,112,10">
+                ToolTip="Create Account" Margin="200,362,112,10">
                 <TextBlock
                  FontFamily="Akatra"
                  Text="Create account" />

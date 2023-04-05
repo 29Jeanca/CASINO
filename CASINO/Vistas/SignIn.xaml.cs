@@ -74,7 +74,7 @@ namespace CASINO.Vistas
 
         }
         /// <summary>
-        /// Validacion de credenciales, se selecciona únicamente el nombre y la clave para validarlos
+        /// Validacion de credenciales, se selecciona únicamente el correo y la clave para validarlos
         /// Luego de validados pasan a la ventana de Game
         /// </summary>
         public bool Validacion_credenciales()

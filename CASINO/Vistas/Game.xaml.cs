@@ -32,9 +32,40 @@ namespace CASINO.Vistas
         public static string pepiColons;
         public static List<int> ints = new List<int>();
         public static string filePath = @"D:\Casino\CASINO\txt\iniciados.txt";
+        public static int hora;
+        string reglas = "1- The objective of the game is to get a hand with a total value closer to 21 than the dealer's.\n\n" +
+"2- Each numbered card has its face value, face cards are worth 10, and an ace can be worth 1 or 11, depending on what the player chooses.\n\n" +
+"3- Players are dealt two cards and can request more to get closer to 21, but if they go over 21, they automatically lose.\n\n" +
+"4- Once all players have finished their turn, the dealer reveals their cards and tries to make a hand higher than the players' hands without going over 21.\n\n" +
+"5- If the dealer's and a player's hands have the same value, it's considered a tie, and the original bet is returned.\n\n" +
+"6- If the player's hand is higher than the dealer's without going over 21, they get double the original bet back.";
+
+
         public Game()
         {
             InitializeComponent();
+            Loaded += Game_Loaded;
+            DateTime horaActual = DateTime.Now;
+            hora = horaActual.Hour;
+        }
+        public void horaSaludo()
+        {
+            var saludoDia = "Good Morning";
+            var saludoTarde = "Good Afternoon";
+            var saludoNoche = "Good Night";
+            if (hora <= 11)
+            {
+                saludoUsuario.Text = saludoDia;
+            }
+            if (hora >= 12)
+            {
+                saludoUsuario.Text = saludoTarde;
+            }
+            if (hora >= 19)
+            {
+                saludoUsuario.Text = saludoNoche;
+            }
+
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -44,32 +75,48 @@ namespace CASINO.Vistas
                 DragMove();
             }
         }
+        private void Game_Loaded(object sender, RoutedEventArgs e)
+        {
+            seleccionarId();
+            inicializarVariables();
+            horaSaludo();
+        }
         /// <summary>
         /// Este método tiene una sentencia para poder guardar en una variable el id del usuario
         /// Esto funciona para guardarlo en un txt y controlar el inicio de sesión de cada usuario.
         /// </summary>
-        public void seleccionarId()
+        public int seleccionarId()
         {
             var nombrePantalla = nombreUsuario.Text;
             NpgsqlConnection conexion = conx.EstablecerConexion();
             var comando = new NpgsqlCommand("SELECT id FROM usuarios WHERE email='" + nombrePantalla + "'", conexion);
             idUsuario = (int)comando.ExecuteScalar();
-            MessageBox.Show(idUsuario + "");
+            conx.CerrarConexion();
             TextReader leerArchivo = new StreamReader(filePath);
             if (!leerArchivo.ReadToEnd().Contains(idUsuario.ToString()))
             {
+                MessageBox.Show("Está leyendo el archivo");
                 datosUsuario();
+                leerArchivo.Close();
                 escribirArchivo();
-
             }
+            return idUsuario;
         }
         public void inicializarVariables()
         {
-            var cantidadMonedas = txtCantMonedas.Text;
-            int.Parse(cantidadMonedas);
-            txtCantMonedas.Text = Jugador.Saldo = "20000";
+            NpgsqlConnection conexion = conx.EstablecerConexion();
+            var comando = new NpgsqlCommand("SELECT saldo FROM jugadoresActivos WHERE id_jugador='" + idUsuario + "'", conexion);
+            var saldoUsuario = (string)comando.ExecuteScalar();
+            conx.CerrarConexion();
+            var saldoInt = int.Parse(saldoUsuario);
+            if (saldoInt <= 0)
+            {
+                txtCantMonedas.Foreground = Brushes.Red;
+            }
+            txtCantMonedas.Text = saldoInt.ToString();
 
         }
+
 
         /// <summary>
         /// Inserta dentro de la tabla jugadoresActivos el id de ese jugador y las variables de saldo, deuda
@@ -81,6 +128,7 @@ namespace CASINO.Vistas
             var sentenciaUsuario = "INSERT INTO jugadoresActivos (id_jugador,saldo,deuda,premium) VALUES('" + idUsuario + "','" + Jugador.Saldo + "','" + Jugador.Deuda + "','" + Jugador.Premium + "')";
             NpgsqlCommand comando = new NpgsqlCommand(sentenciaUsuario, conexion);
             comando.ExecuteNonQuery();
+            conx.CerrarConexion();
 
         }
         /// <summary>
@@ -115,11 +163,9 @@ namespace CASINO.Vistas
 
         private void btnJugar_Click(object sender, RoutedEventArgs e)
         {
-            seleccionarId();
-            conx.CerrarConexion();
-            //BlackJack black = new BlackJack();
-            //black.Show();
-            //Close();
+            BlackJack black = new BlackJack();
+            black.Show();
+            Close();
         }
 
 
@@ -127,6 +173,26 @@ namespace CASINO.Vistas
         private void btnMinimizar_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
+        }
+
+        private void btnAbrirMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (barraMenu.IsVisible)
+            {
+                barraMenu.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                barraMenu.Visibility = Visibility.Visible;
+
+            }
+
+
+        }
+
+        private void btnReglas_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(reglas, "RULES");
         }
     }
 }
