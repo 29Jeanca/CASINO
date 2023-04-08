@@ -27,6 +27,7 @@ namespace CASINO.Vistas
         public string correoUsuario = "";
         public string claveUsuario = "";
         public bool validacion;
+        public static string email;
         public ConexionBD conx = new ConexionBD();
         public SignIn()
         {
@@ -96,6 +97,10 @@ namespace CASINO.Vistas
             {
                 MessageBox.Show("Welcome " + correoUsuario);
                 conx.CerrarConexion();
+                conexion = conx.EstablecerConexion();
+                var sentenciaId = new NpgsqlCommand("SELECT email FROM usuarios WHERE email='" + correoUsuario + "'", conexion);
+                email = (string)sentenciaId.ExecuteScalar();
+                conx.CerrarConexion();
                 return true;
             }
             else
@@ -124,7 +129,7 @@ namespace CASINO.Vistas
 
                 {
                     Game game = new Game();
-                    game.nombreUsuario.Text = correoUsuario;
+                    game.nombreUsuario.Text = email;
                     game.Show();
                     Close();
                     return;

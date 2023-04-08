@@ -13,12 +13,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
 using Application = System.Net.Mime.MediaTypeNames.Application;
+using MessageBox = System.Windows.MessageBox;
 
 namespace CASINO.Vistas
 {
@@ -30,15 +32,15 @@ namespace CASINO.Vistas
         public static ConexionBD conx = new ConexionBD();
         public static int idUsuario;
         public static string pepiColons;
-        public static List<int> ints = new List<int>();
         public static string filePath = @"D:\Casino\CASINO\txt\iniciados.txt";
         public static int hora;
+        public static string nombrePantalla;
         string reglas = "1- The objective of the game is to get a hand with a total value closer to 21 than the dealer's.\n\n" +
-"2- Each numbered card has its face value, face cards are worth 10, and an ace can be worth 1 or 11, depending on what the player chooses.\n\n" +
-"3- Players are dealt two cards and can request more to get closer to 21, but if they go over 21, they automatically lose.\n\n" +
-"4- Once all players have finished their turn, the dealer reveals their cards and tries to make a hand higher than the players' hands without going over 21.\n\n" +
-"5- If the dealer's and a player's hands have the same value, it's considered a tie, and the original bet is returned.\n\n" +
-"6- If the player's hand is higher than the dealer's without going over 21, they get double the original bet back.";
+                        "2- Each numbered card has its face value, face cards are worth 10, and an ace can be worth 1 or 11, depending on what the player chooses.\n\n" +
+                        "3- Players are dealt two cards and can request more to get closer to 21, but if they go over 21, they automatically lose.\n\n" +
+                        "4- Once all players have finished their turn, the dealer reveals their cards and tries to make a hand higher than the players' hands without going over 21.\n\n" +
+                        "5- If the dealer's and a player's hands have the same value, it's considered a tie, and the original bet is returned.\n\n" +
+                        "6- If the player's hand is higher than the dealer's without going over 21, they get double the original bet back.";
 
 
         public Game()
@@ -47,6 +49,7 @@ namespace CASINO.Vistas
             Loaded += Game_Loaded;
             DateTime horaActual = DateTime.Now;
             hora = horaActual.Hour;
+
         }
         public void horaSaludo()
         {
@@ -61,7 +64,7 @@ namespace CASINO.Vistas
             {
                 saludoUsuario.Text = saludoTarde;
             }
-            if (hora >= 19)
+            if (hora >= 19 || hora <= 00)
             {
                 saludoUsuario.Text = saludoNoche;
             }
@@ -77,19 +80,20 @@ namespace CASINO.Vistas
         }
         private void Game_Loaded(object sender, RoutedEventArgs e)
         {
+
+            horaSaludo();
             seleccionarId();
             inicializarVariables();
-            horaSaludo();
         }
         /// <summary>
         /// Este método tiene una sentencia para poder guardar en una variable el id del usuario
         /// Esto funciona para guardarlo en un txt y controlar el inicio de sesión de cada usuario.
         /// </summary>
-        public int seleccionarId()
+        public void seleccionarId()
         {
-            var nombrePantalla = nombreUsuario.Text;
+            nombrePantalla = nombreUsuario.Text;
             NpgsqlConnection conexion = conx.EstablecerConexion();
-            var comando = new NpgsqlCommand("SELECT id FROM usuarios WHERE email='" + nombrePantalla + "'", conexion);
+            var comando = new NpgsqlCommand("SELECT id FROM usuarios WHERE email='" + SignIn.email + "'", conexion);
             idUsuario = (int)comando.ExecuteScalar();
             conx.CerrarConexion();
             TextReader leerArchivo = new StreamReader(filePath);
@@ -100,10 +104,13 @@ namespace CASINO.Vistas
                 leerArchivo.Close();
                 escribirArchivo();
             }
-            return idUsuario;
+
+
+
         }
         public void inicializarVariables()
         {
+
             NpgsqlConnection conexion = conx.EstablecerConexion();
             var comando = new NpgsqlCommand("SELECT saldo FROM jugadoresActivos WHERE id_jugador='" + idUsuario + "'", conexion);
             var saldoUsuario = (string)comando.ExecuteScalar();
@@ -114,6 +121,11 @@ namespace CASINO.Vistas
                 txtCantMonedas.Foreground = Brushes.Red;
             }
             txtCantMonedas.Text = saldoInt.ToString();
+            conexion = conx.EstablecerConexion();
+            var sentenciaEmail = new NpgsqlCommand("SELECT email FROM usuarios WHERE id='" + idUsuario + "'", conexion);
+            var email = (string)sentenciaEmail.ExecuteScalar();
+            conx.CerrarConexion();
+            nombreUsuario.Text = email;
 
         }
 
@@ -163,9 +175,21 @@ namespace CASINO.Vistas
 
         private void btnJugar_Click(object sender, RoutedEventArgs e)
         {
-            BlackJack black = new BlackJack();
-            black.Show();
-            Close();
+            MessageBoxResult result = MessageBox.Show("The value to play is 5000 pepiColons," +
+           "please note that UPON ENTRY you will make the PAYMENT.", "IMPORTANT", MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+            {
+                BlackJack black = new BlackJack();
+                black.Show();
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("If you're out of money, remember that in the menu tab you can access a loan." +
+                "If you're a premium user, your earnings are doubled and the cost of the game is 15% less.");
+            }
+
+
         }
 
 

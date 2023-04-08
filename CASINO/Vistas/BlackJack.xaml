@@ -176,7 +176,6 @@
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Left"
                 Margin="84,0,0,42"
-                
                 />
 
 
@@ -191,6 +190,61 @@
                 TextAlignment="Center"
                 VerticalAlignment="Bottom"
                 HorizontalAlignment="Left"
+                
+                />
+
+            <TextBlock
+                x:Name="txtrango2"
+                Grid.Row="1"
+                Grid.Column="1"
+                FontSize="30"
+                Width="207"
+                Foreground="#40E0D0"
+                TextDecorations="Underline"
+                TextAlignment="Center"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center" Margin="0,504,0,0"
+                
+                />
+
+            <TextBlock
+                x:Name="txtpalo2"
+                Grid.Row="1"
+                Grid.Column="1"
+                FontSize="30"
+                Width="208"
+                Foreground="#fff"
+                TextDecorations="OverLine"
+                TextAlignment="Center"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Center"
+                Margin="0,553,0,0" Grid.RowSpan="2"
+                />
+
+            <TextBlock
+                x:Name="txtrango3"
+                Grid.Row="1"
+                Grid.Column="1"
+                FontSize="30"
+                Width="208"
+                Foreground="#fff"
+                TextDecorations="Underline"
+                TextAlignment="Center"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left" Margin="832,492,0,0"
+                />
+
+            <TextBlock
+                x:Name="txtpalo3"
+                Grid.Row="1"
+                Grid.Column="1"
+                FontSize="30"
+                Width="208"
+                Foreground="#fff"
+                TextDecorations="OverLine"
+                TextAlignment="Center"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left" Margin="832,546,0,0"
                 
                 />
 

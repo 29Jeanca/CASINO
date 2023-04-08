@@ -4,6 +4,7 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,6 +26,10 @@ namespace CASINO.Vistas
         public static ConexionBD conx = new ConexionBD();
         public static Game game = new Game();
         public static Baraja baraja = new Baraja();
+        public static string rango1;
+        public static string rango2;
+        public static string rango3;
+
         public BlackJack()
         {
             InitializeComponent();
@@ -35,6 +40,7 @@ namespace CASINO.Vistas
         private void BlackJack_Loaded(object sender, RoutedEventArgs e)
         {
             nombreUsuario.Content = nombreEnPantalla();
+            inicializarVariables();
 
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -49,7 +55,20 @@ namespace CASINO.Vistas
         {
             WindowState = WindowState.Minimized;
         }
+        public void inicializarVariables()
+        {
+            NpgsqlConnection conexion = conx.EstablecerConexion();
+            var comando = new NpgsqlCommand("SELECT saldo FROM jugadoresActivos WHERE id_jugador='" + Game.idUsuario + "'", conexion);
+            var saldoUsuario = (string)comando.ExecuteScalar();
+            conx.CerrarConexion();
+            var saldoInt = int.Parse(saldoUsuario);
+            if (saldoInt <= 0)
+            {
+                CantidadpepiColons.Foreground = Brushes.Red;
+            }
+            CantidadpepiColons.Text = saldoInt.ToString();
 
+        }
         private void btn_cerrar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -68,43 +87,63 @@ namespace CASINO.Vistas
 
         private void btnRepartir_Click(object sender, RoutedEventArgs e)
         {
-            baraja.Barajar();
-            List<Carta> cartasRepartidas = baraja.Repartir(1);
-            var rango = "";
-            var palo = "";
-            foreach (Carta cartas in cartasRepartidas)
-            {
-                rango += cartas.rango;
-                palo += cartas.palo;
-            }
-            txtpalo.Text = palo;
-            txtrango.Text = rango;
-            AvancebarraProgreso();
+            EmpezarJuego();
         }
-        public void AvancebarraProgreso()
+        public void EmpezarJuego()
         {
-            string rangoCarta = txtrango.Text;
-            if (rangoCarta == "J")
+            if (VerificarDinero())
             {
-                barraProgreso.Value = 11;
-            }
-            else if (rangoCarta == "Q")
-            {
-                barraProgreso.Value = 12;
-            }
-            else if (rangoCarta == "K")
-            {
-                barraProgreso.Value = 13;
-            }
-            else if (rangoCarta == "A")
-            {
-                barraProgreso.Value = 1;
+                Game game = new Game();
+                game.Show();
+                Close();
+                //baraja.Barajar();
+                //List<Carta> cartasRepartidas = baraja.Repartir(4);
+                //rango1 = cartasRepartidas[0].rango;
+                //txtrango.Text = $"{cartasRepartidas[0].rango}";
+                //txtpalo.Text = $"{cartasRepartidas[0].palo}";
+                //rango2 = cartasRepartidas[1].rango;
+                //txtrango2.Text = $"{cartasRepartidas[1].rango}";
+                //txtpalo2.Text = $"{cartasRepartidas[1].palo}";
+                //rango3 = cartasRepartidas[2].rango;
+                //txtrango3.Text = $"{cartasRepartidas[2].rango}";
+                //txtpalo3.Text = $"{cartasRepartidas[2].palo}";
+                //AvanceBarraProgreso();
             }
             else
             {
-                double rangoCartaD = double.Parse(rangoCarta);
-                barraProgreso.Value = rangoCartaD;
+                MessageBox.Show("You have insufficient funds.");
+                Game game = new Game();
+                game.Show();
+                Close();
             }
+        }
+        public bool VerificarDinero()
+        {
+            NpgsqlConnection conexion = conx.EstablecerConexion();
+            var sentenciaDinero = new NpgsqlCommand("SELECT saldo FROM jugadoresActivos WHERE id_jugador= '" + Game.idUsuario + "'", conexion);
+            var dinero = (string)sentenciaDinero.ExecuteScalar();
+            conx.CerrarConexion();
+            int dineroInt = int.Parse(dinero);
+            if (dineroInt >= 5000)
+            {
+                return true;
+            }
+            return false;
+        }
+        public int ObtenerValorRango(string rango)
+        {
+            if (rango == "J" || rango == "Q" || rango == "K" || rango == "A")
+            {
+                return 10;
+            }
+            return int.Parse(rango);
+
+        }
+        public void AvanceBarraProgreso()
+        {
+            var valorBarra = ObtenerValorRango(rango1) + ObtenerValorRango(rango2);
+            barraProgreso.Value = valorBarra;
         }
     }
 }
+
