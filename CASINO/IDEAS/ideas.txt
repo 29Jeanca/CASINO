@@ -1,0 +1,6 @@
+﻿                                                   IDEAS
+-Dar un bonus diario al usuario a cierta hora del día
+-Crear un apartado donde se vea una tarjeta del usuario, que refleje la cantidad de dinero que ha ganado, y la fecha en la que 
+fue su primera partida.
+-Crear un apartado donde se vea una tarjeta del usuario dorada si es premium y color (a definir) si no lo es.
+-Que la tarjeta se pueda sacar un PDF.

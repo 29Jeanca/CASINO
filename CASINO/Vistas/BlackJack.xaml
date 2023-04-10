@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CASINO.Vistas"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:media="clr-namespace:System.Windows.Media;assembly=PresentationCore"
         mc:Ignorable="d"
         Title="Create Account" Height="768" Width="1366"
         ResizeMode="NoResize"
@@ -77,8 +78,7 @@
                 />
 
             <TextBlock 
-                x:Name="CantidadpepiColons" 
-                Text="monedas"
+                x:Name="CantidadpepiColons"
                 Grid.Row="0"
                 Grid.Column="0"
                 HorizontalAlignment="Left"
@@ -131,7 +131,21 @@
                         Background="#004132"
                         BorderBrush="#006622"
                         BorderThickness="2"
-                        
+                        />
+                    <Button
+                        x:Name="btnPlantarse"
+                        Click="btnPlantarse_Click"
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        Width="150"
+                        HorizontalAlignment="Left"
+                        Content="Stand"
+                        FontSize="20"
+                        Height="60"
+                        IsEnabled="False"
+                        Background="#004132"
+                        BorderBrush="#006622"
+                        BorderThickness="2" Margin="10,62,0,88" Grid.RowSpan="2"
                         />
 
                 </Grid>
@@ -167,7 +181,7 @@
                 Text="{Binding ElementName=barraProgreso, Path=Value, StringFormat={}{0:0}}" Margin="694,0,0,0"
                 />
             <TextBlock
-                x:Name="txtrango"
+                x:Name="txtRangoJugador"
                 Grid.Row="1"
                 Grid.Column="1"
                 Foreground="#40E0D0"
@@ -180,7 +194,7 @@
 
 
             <TextBlock
-                x:Name="txtpalo"
+                x:Name="txtPaloJugador"
                 Grid.Row="1"
                 Grid.Column="1"
                 FontSize="30"
@@ -194,7 +208,7 @@
                 />
 
             <TextBlock
-                x:Name="txtrango2"
+                x:Name="txtRangoJugador2"
                 Grid.Row="1"
                 Grid.Column="1"
                 FontSize="30"
@@ -208,7 +222,7 @@
                 />
 
             <TextBlock
-                x:Name="txtpalo2"
+                x:Name="txtPaloJugador2"
                 Grid.Row="1"
                 Grid.Column="1"
                 FontSize="30"
@@ -222,7 +236,7 @@
                 />
 
             <TextBlock
-                x:Name="txtrango3"
+                x:Name="txtRangoJugador3"
                 Grid.Row="1"
                 Grid.Column="1"
                 FontSize="30"
@@ -235,7 +249,7 @@
                 />
 
             <TextBlock
-                x:Name="txtpalo3"
+                x:Name="txtPaloJugador3"
                 Grid.Row="1"
                 Grid.Column="1"
                 FontSize="30"
@@ -248,6 +262,75 @@
                 
                 />
 
+            <TextBlock
+                x:Name="txtRangoCrupier"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                TextDecorations="Underline"
+                Grid.Row="1"
+                Text="HOLA"
+                FontSize="30"
+                Foreground="#fff"
+                Margin="30,30,900,530"
+                />
+            <TextBlock
+                x:Name="txtPaloCrupier"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Text="HOLA"
+                FontSize="30"
+                Foreground="#fff" Margin="46,68,0,0" Grid.Row="1"
+                TextDecorations="OverLine"
+                />
+            <TextBlock
+                x:Name="txtRangoCrupier2"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                TextDecorations="Underline"
+                Grid.Row="1"
+                Text="HOLA"
+                FontSize="30"
+                Foreground="#fff"
+                Margin="460,22,0,0"
+                />
+            <TextBlock
+                x:Name="txtPaloCrupier2"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Text="HOLA"
+                FontSize="30"
+                Foreground="#fff" Margin="460,76,0,0" Grid.Row="1"
+                TextDecorations="OverLine"
+                />
+            <TextBlock
+                x:Name="txtRangoCrupier3"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                TextDecorations="Underline"
+                Grid.Row="1"
+                Text="HOLA"
+                FontSize="30"
+                Foreground="#fff"
+                Margin="936,23,0,0"
+                />
+            <TextBlock
+                x:Name="txtPaloCrupier3"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Text="HOLA"
+                FontSize="30"
+                Foreground="#fff" Margin="936,76,0,0" Grid.Row="1"
+                TextDecorations="OverLine"
+                />
+
+            <MediaElement x:Name="audio" Source="/Sonidos/sonidoVictoira.mp3"></MediaElement>
         </Grid>
+
     </Border>
 </Window>

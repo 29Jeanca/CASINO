@@ -1,5 +1,6 @@
 ﻿using CASINO.Clases;
 using CASINO.Clases.BaseDatos;
+using CASINO.Clases.Extras;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -26,10 +27,12 @@ namespace CASINO.Vistas
         public static ConexionBD conx = new ConexionBD();
         public static Game game = new Game();
         public static Baraja baraja = new Baraja();
-        public static string rango1;
-        public static string rango2;
-        public static string rango3;
-
+        public static string[] rangoJugador = new string[3];
+        public static int rangoJugadorTotal;
+        public static string[] rangoCrupier = new string[3];
+        public static int rangoCrupierTotal;
+        public static int contador = 0;
+        public static string rutaAudio = @"D:\Casino\CASINO\Sonidos\sonidoVictoria.mp3";
         public BlackJack()
         {
             InitializeComponent();
@@ -41,6 +44,7 @@ namespace CASINO.Vistas
         {
             nombreUsuario.Content = nombreEnPantalla();
             inicializarVariables();
+            txtRangoCrupier.Text = contador.ToString();
 
         }
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -88,30 +92,46 @@ namespace CASINO.Vistas
         private void btnRepartir_Click(object sender, RoutedEventArgs e)
         {
             EmpezarJuego();
+
         }
         public void EmpezarJuego()
         {
-            if (VerificarDinero())
+            int[] rangosInt = new int[4];
+            contador++;
+            List<Carta> cartasRepartidas = baraja.Repartir(3);
+            if (VerificarDinero() && contador == 1)
             {
-                Game game = new Game();
-                game.Show();
-                Close();
-                //baraja.Barajar();
-                //List<Carta> cartasRepartidas = baraja.Repartir(4);
-                //rango1 = cartasRepartidas[0].rango;
-                //txtrango.Text = $"{cartasRepartidas[0].rango}";
-                //txtpalo.Text = $"{cartasRepartidas[0].palo}";
-                //rango2 = cartasRepartidas[1].rango;
-                //txtrango2.Text = $"{cartasRepartidas[1].rango}";
-                //txtpalo2.Text = $"{cartasRepartidas[1].palo}";
-                //rango3 = cartasRepartidas[2].rango;
-                //txtrango3.Text = $"{cartasRepartidas[2].rango}";
-                //txtpalo3.Text = $"{cartasRepartidas[2].palo}";
-                //AvanceBarraProgreso();
+                baraja.Barajar();
+                rangoJugador[0] = cartasRepartidas[0].rango;
+                txtRangoJugador.Text = $"{cartasRepartidas[0].rango}";
+                txtPaloJugador.Text = $"{cartasRepartidas[0].palo}";
+                rangoJugador[1] = cartasRepartidas[1].rango;
+                txtRangoJugador2.Text = $"{cartasRepartidas[1].rango}";
+                txtPaloJugador2.Text = $"{cartasRepartidas[1].palo}";
+                rangosInt[0] = ObtenerValorRango(rangoJugador[0]);
+                rangosInt[1] = ObtenerValorRango(rangoJugador[1]);
+                rangoJugadorTotal = rangosInt[0] + rangosInt[1];
+                AvanceBarraProgreso(rangoJugadorTotal);
+                btnPlantarse.IsEnabled = true;
             }
-            else
+            else if (contador == 2 && btnPlantarse.IsEnabled)
             {
-                MessageBox.Show("You have insufficient funds.");
+                rangoJugador[2] = cartasRepartidas[2].rango;
+                txtRangoJugador3.Text = $"{cartasRepartidas[2].rango}";
+                txtPaloJugador3.Text = $"{cartasRepartidas[2].palo}";
+                btnRepartir.IsEnabled = false;
+                rangosInt[0] = ObtenerValorRango(rangoJugador[0]);
+                rangosInt[1] = ObtenerValorRango(rangoJugador[1]);
+                rangosInt[2] = ObtenerValorRango(rangoJugador[2]);
+                rangoJugadorTotal = rangosInt[0] + rangosInt[1] + rangosInt[2];
+                AvanceBarraProgreso(rangoJugadorTotal);
+            }
+
+            if (!VerificarDinero())
+            {
+                MessageBox.Show("If you don't have money in the menu, you can access a loan. " +
+                    "Remember that if you are PREMIUM, you have the benefits " +
+                    "of:\r\n\r\nx2 earnings\r\n15% reduction in the price of playing.", "IMPORTANT");
                 Game game = new Game();
                 game.Show();
                 Close();
@@ -136,14 +156,23 @@ namespace CASINO.Vistas
             {
                 return 10;
             }
-            return int.Parse(rango);
+            else
+            {
+                return int.Parse(rango);
+            }
 
         }
-        public void AvanceBarraProgreso()
+        public void AvanceBarraProgreso(int total)
         {
-            var valorBarra = ObtenerValorRango(rango1) + ObtenerValorRango(rango2);
-            barraProgreso.Value = valorBarra;
+            barraProgreso.Value = total;
         }
+
+        private void btnPlantarse_Click(object sender, RoutedEventArgs e)
+        {
+
+            ControladorSonido.ReproducirAudio(rutaAudio);
+        }
+
     }
 }
 
