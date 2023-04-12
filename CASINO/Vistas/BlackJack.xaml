@@ -212,12 +212,12 @@
                 Grid.Row="1"
                 Grid.Column="1"
                 FontSize="30"
-                Width="207"
+                Width="206"
                 Foreground="#40E0D0"
                 TextDecorations="Underline"
                 TextAlignment="Center"
                 VerticalAlignment="Top"
-                HorizontalAlignment="Center" Margin="0,504,0,0"
+                HorizontalAlignment="Left" Margin="213,497,0,0"
                 
                 />
 
@@ -231,8 +231,8 @@
                 TextDecorations="OverLine"
                 TextAlignment="Center"
                 VerticalAlignment="Top"
-                HorizontalAlignment="Center"
-                Margin="0,553,0,0" Grid.RowSpan="2"
+                HorizontalAlignment="Left"
+                Margin="212,546,0,0"
                 />
 
             <TextBlock
@@ -245,7 +245,7 @@
                 TextDecorations="Underline"
                 TextAlignment="Center"
                 VerticalAlignment="Top"
-                HorizontalAlignment="Left" Margin="832,492,0,0"
+                HorizontalAlignment="Left" Margin="542,492,0,0"
                 />
 
             <TextBlock
@@ -258,10 +258,32 @@
                 TextDecorations="OverLine"
                 TextAlignment="Center"
                 VerticalAlignment="Top"
-                HorizontalAlignment="Left" Margin="832,546,0,0"
-                
+                HorizontalAlignment="Left" Margin="542,546,0,0"
                 />
-
+            <TextBlock
+                x:Name="txtRangoJugador4"
+                Grid.Row="1"
+                Grid.Column="1"
+                FontSize="30"
+                Width="208"
+                Foreground="#fff"
+                TextDecorations="Underline"
+                TextAlignment="Center"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left" Margin="791,493,0,0"
+                />
+            <TextBlock
+                x:Name="txtPaloJugador4"
+                Grid.Row="1"
+                Grid.Column="1"
+                FontSize="30"
+                Width="208"
+                Foreground="#fff"
+                TextDecorations="OverLine"
+                TextAlignment="Center"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left" Margin="792,544,0,0"
+                />
             <TextBlock
                 x:Name="txtRangoCrupier"
                 Grid.Column="1"
@@ -272,8 +294,9 @@
                 Text="HOLA"
                 FontSize="30"
                 Foreground="#fff"
-                Margin="30,30,900,530"
+                Margin="30,30,900,530" Visibility="Hidden"
                 />
+
             <TextBlock
                 x:Name="txtPaloCrupier"
                 Grid.Column="1"
@@ -282,7 +305,7 @@
                 Text="HOLA"
                 FontSize="30"
                 Foreground="#fff" Margin="46,68,0,0" Grid.Row="1"
-                TextDecorations="OverLine"
+                TextDecorations="OverLine" Visibility="Hidden"
                 />
             <TextBlock
                 x:Name="txtRangoCrupier2"
@@ -294,7 +317,7 @@
                 Text="HOLA"
                 FontSize="30"
                 Foreground="#fff"
-                Margin="460,22,0,0"
+                Margin="277,30,0,0" Visibility="Hidden" 
                 />
             <TextBlock
                 x:Name="txtPaloCrupier2"
@@ -303,9 +326,22 @@
                 VerticalAlignment="Top"
                 Text="HOLA"
                 FontSize="30"
-                Foreground="#fff" Margin="460,76,0,0" Grid.Row="1"
-                TextDecorations="OverLine"
+                Foreground="#fff" Margin="277,84,0,0" Grid.Row="1"
+                TextDecorations="OverLine" Visibility="Hidden" 
                 />
+            <ProgressBar
+                x:Name="barraProgresoCrupier"
+                Background="#0fc106"
+                Foreground="#008293"
+                Grid.Row="1"
+                Grid.Column="2"
+                Height="30"
+                Margin="4,24,4,4"
+                Width="100"
+                VerticalAlignment="Top"
+            Orientation="Vertical"
+            Value="0"
+                Maximum="21"/>
             <TextBlock
                 x:Name="txtRangoCrupier3"
                 Grid.Column="1"
@@ -316,7 +352,7 @@
                 Text="HOLA"
                 FontSize="30"
                 Foreground="#fff"
-                Margin="936,23,0,0"
+                Margin="658,31,0,0" Visibility="Hidden"
                 />
             <TextBlock
                 x:Name="txtPaloCrupier3"
@@ -325,11 +361,61 @@
                 VerticalAlignment="Top"
                 Text="HOLA"
                 FontSize="30"
-                Foreground="#fff" Margin="936,76,0,0" Grid.Row="1"
-                TextDecorations="OverLine"
+                Foreground="#fff" Margin="658,84,0,0" Grid.Row="1"
+                TextDecorations="OverLine" Visibility="Hidden"
                 />
 
             <MediaElement x:Name="audio" Source="/Sonidos/sonidoVictoira.mp3"></MediaElement>
+            <TextBlock
+                x:Name="txtRangoCrupier4"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                TextDecorations="Underline"
+                Grid.Row="1"
+                Text="HOLA"
+                FontSize="30"
+                Foreground="#fff"
+                Margin="921,23,0,0" Visibility="Hidden"
+                />
+            <TextBlock
+                x:Name="txtPaloCrupier4"
+                Grid.Column="1"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Text="HOLA"
+                FontSize="30"
+                Foreground="#fff" Margin="921,76,0,0" Grid.Row="1"
+                TextDecorations="OverLine" Visibility="Hidden"
+                />
+            <materialDesign:Card
+               Grid.Column="1"
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Width="250"
+                Padding="8"
+                Background="#FFC107"
+                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
+                UniformCornerRadius="6" Visibility="Hidden">
+                <TextBlock
+                    x:Name="textoVictoria"
+                    Text="You Win"
+                    FontFamily="ALKATRA"
+                    FontSize="30"
+                    Foreground="#8B0000"
+                    TextWrapping="NoWrap"
+                    TextAlignment="Center"/>
+            </materialDesign:Card>
+            <TextBlock
+                x:Name="textoProgresoCrupier"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                Grid.Row="1"
+                Grid.Column="2"
+                Foreground="#FFF"
+                Text="{Binding Value, ElementName=barraProgresoCrupier, StringFormat=\{0:0\}}" Margin="0,126,0,0"
+                />
         </Grid>
 
     </Border>

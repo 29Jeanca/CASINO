@@ -27,16 +27,22 @@ namespace CASINO.Vistas
         public static ConexionBD conx = new ConexionBD();
         public static Game game = new Game();
         public static Baraja baraja = new Baraja();
-        public static string[] rangoJugador = new string[3];
+        public static string[] rangoJugador = new string[4];
         public static int rangoJugadorTotal;
-        public static string[] rangoCrupier = new string[3];
-        public static int rangoCrupierTotal;
+        public static bool semaforo = true;
+        public static string[] rangoCrupier = new string[4];
+        public static int[] IndicesJugador = new int[4];
+        public static int[] IndicesCrupier = new int[4];
+        int rangoCrupierTotal;
         public static int contador = 0;
         public static string rutaAudio = @"D:\Casino\CASINO\Sonidos\sonidoVictoria.mp3";
         public BlackJack()
         {
             InitializeComponent();
             Loaded += BlackJack_Loaded;
+            txtRangoCrupier2.Visibility = Visibility.Hidden;
+            txtPaloCrupier2.Visibility = Visibility.Hidden;
+
         }
 
 
@@ -79,7 +85,6 @@ namespace CASINO.Vistas
         }
         public string nombreEnPantalla()
         {
-
             var id = Game.idUsuario;
             NpgsqlConnection conexion = conx.EstablecerConexion();
             var sentenciaNombre = new NpgsqlCommand("SELECT nombre FROM usuarios WHERE id='" + id + "'", conexion);
@@ -88,55 +93,89 @@ namespace CASINO.Vistas
             return nombre;
         }
 
-
         private void btnRepartir_Click(object sender, RoutedEventArgs e)
         {
-            EmpezarJuego();
-
-        }
-        public void EmpezarJuego()
-        {
-            int[] rangosInt = new int[4];
+            JuegoUsuario();
+            JuegoCrupier();
             contador++;
-            List<Carta> cartasRepartidas = baraja.Repartir(3);
-            if (VerificarDinero() && contador == 1)
+            btnPlantarse.IsEnabled = true;
+        }
+
+        public void JuegoUsuario()
+        {
+            Baraja.Barajar();
+            if (contador == 0)
             {
-                baraja.Barajar();
-                rangoJugador[0] = cartasRepartidas[0].rango;
-                txtRangoJugador.Text = $"{cartasRepartidas[0].rango}";
-                txtPaloJugador.Text = $"{cartasRepartidas[0].palo}";
-                rangoJugador[1] = cartasRepartidas[1].rango;
-                txtRangoJugador2.Text = $"{cartasRepartidas[1].rango}";
-                txtPaloJugador2.Text = $"{cartasRepartidas[1].palo}";
-                rangosInt[0] = ObtenerValorRango(rangoJugador[0]);
-                rangosInt[1] = ObtenerValorRango(rangoJugador[1]);
-                rangoJugadorTotal = rangosInt[0] + rangosInt[1];
-                AvanceBarraProgreso(rangoJugadorTotal);
+                RepartirCarta(txtRangoJugador, txtPaloJugador, rangoJugador, 0);
+                IndicesJugador[0] = ObtenerValorRango(rangoJugador[0]);
+                RepartirCarta(txtRangoJugador2, txtPaloJugador2, rangoJugador, 1);
+                IndicesJugador[1] += ObtenerValorRango(rangoJugador[1]);
+                rangoJugadorTotal = IndicesJugador[0] + IndicesJugador[1];
+                AvanceBarraProgreso(barraProgreso, rangoJugadorTotal);
                 btnPlantarse.IsEnabled = true;
             }
-            else if (contador == 2 && btnPlantarse.IsEnabled)
+            if (contador == 1)
             {
-                rangoJugador[2] = cartasRepartidas[2].rango;
-                txtRangoJugador3.Text = $"{cartasRepartidas[2].rango}";
-                txtPaloJugador3.Text = $"{cartasRepartidas[2].palo}";
-                btnRepartir.IsEnabled = false;
-                rangosInt[0] = ObtenerValorRango(rangoJugador[0]);
-                rangosInt[1] = ObtenerValorRango(rangoJugador[1]);
-                rangosInt[2] = ObtenerValorRango(rangoJugador[2]);
-                rangoJugadorTotal = rangosInt[0] + rangosInt[1] + rangosInt[2];
-                AvanceBarraProgreso(rangoJugadorTotal);
-            }
+                txtRangoCrupier2.Visibility = Visibility.Visible;
+                txtPaloCrupier2.Visibility = Visibility.Visible;
+                RepartirCarta(txtRangoJugador3, txtPaloJugador3, rangoJugador, 2);
+                IndicesJugador[2] = ObtenerValorRango(rangoJugador[2]);
+                rangoJugadorTotal += IndicesJugador[2];
+                AvanceBarraProgreso(barraProgreso, rangoJugadorTotal);
 
-            if (!VerificarDinero())
+            }
+            if (contador == 2)
             {
-                MessageBox.Show("If you don't have money in the menu, you can access a loan. " +
-                    "Remember that if you are PREMIUM, you have the benefits " +
-                    "of:\r\n\r\nx2 earnings\r\n15% reduction in the price of playing.", "IMPORTANT");
-                Game game = new Game();
-                game.Show();
-                Close();
+                RepartirCarta(txtRangoJugador4, txtPaloJugador4, rangoJugador, 3);
+                IndicesJugador[3] = ObtenerValorRango(rangoJugador[3]);
+                btnRepartir.IsEnabled = false;
+                rangoJugadorTotal += IndicesJugador[3];
+                AvanceBarraProgreso(barraProgreso, rangoJugadorTotal);
             }
         }
+        public bool ValidarGanador()
+        {
+            if (rangoCrupierTotal == 21 || rangoCrupierTotal > rangoJugadorTotal && !btnRepartir.IsEnabled)
+            {
+                textoVictoria.Text = "You Lose";
+                ControladorSonido.ReproducirAudio(rutaAudio);
+                return false;
+            }
+            return true;
+
+        }
+        public void JuegoCrupier()
+        {
+            if (contador == 0)
+            {
+                RepartirCarta(txtRangoCrupier, txtPaloCrupier, rangoCrupier, 0);
+                RepartirCarta(txtRangoCrupier2, txtPaloCrupier2, rangoCrupier, 1);
+                IndicesCrupier[0] = ObtenerValorRango(rangoCrupier[0]);
+                IndicesCrupier[1] = ObtenerValorRango(rangoCrupier[1]);
+                rangoCrupierTotal = IndicesCrupier[0] + IndicesCrupier[1];
+                AvanceBarraProgreso(barraProgresoCrupier, rangoCrupierTotal);
+            }
+            if (contador == 1 && rangoCrupierTotal < 17)
+            {
+                RepartirCarta(txtRangoCrupier3, txtPaloCrupier3, rangoCrupier, 2);
+                rangoCrupierTotal += IndicesCrupier[2];
+                AvanceBarraProgreso(barraProgresoCrupier, rangoCrupierTotal);
+            }
+            if (contador == 2 && rangoCrupierTotal < 17)
+            {
+                RepartirCarta(txtRangoCrupier4, txtPaloCrupier4, rangoCrupier, 3);
+                rangoCrupierTotal += IndicesCrupier[3];
+                AvanceBarraProgreso(barraProgresoCrupier, rangoCrupierTotal);
+            }
+        }
+        private void RepartirCarta(TextBlock txtRango, TextBlock txtPalo, string[] rangoArray, int cartaIndex)
+        {
+            List<Carta> cartasRepartidas = baraja.Repartir(13);
+            rangoArray[cartaIndex] = cartasRepartidas[cartaIndex].rango;
+            txtRango.Text = $"{cartasRepartidas[cartaIndex].rango}";
+            txtPalo.Text = $"{cartasRepartidas[cartaIndex].palo}";
+        }
+
         public bool VerificarDinero()
         {
             NpgsqlConnection conexion = conx.EstablecerConexion();
@@ -162,17 +201,15 @@ namespace CASINO.Vistas
             }
 
         }
-        public void AvanceBarraProgreso(int total)
+        public void AvanceBarraProgreso(ProgressBar Progreso, int total)
         {
-            barraProgreso.Value = total;
+            Progreso.Value = total;
         }
 
         private void btnPlantarse_Click(object sender, RoutedEventArgs e)
         {
-
-            ControladorSonido.ReproducirAudio(rutaAudio);
+            btnRepartir.IsEnabled = false;
         }
 
     }
 }
-

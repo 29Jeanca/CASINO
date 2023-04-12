@@ -8,13 +8,13 @@ namespace CASINO.Clases
 {
     public class Baraja
     {
-        public List<Carta> Cartas { get; set; }
+        public static List<Carta> Cartas { get; set; }
 
         public Baraja()
         {
             Cartas = new List<Carta>();
             string[] palos = new string[] { "Corazones", "Diamantes", "Tréboles", "Picas" };
-            string[] rangos = new string[] { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
+            string[] rangos = new string[] { "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
 
             foreach (string palo in palos)
             {
@@ -24,7 +24,7 @@ namespace CASINO.Clases
                 }
             }
         }
-        public void Barajar()
+        public static void Barajar()
         {
             Random random = new Random();
             int cantCartas = Cartas.Count;
