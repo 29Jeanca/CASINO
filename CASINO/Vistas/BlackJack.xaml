@@ -33,7 +33,7 @@
             </Grid.ColumnDefinitions>
             <!--Boton Minimizar-->
             <Button x:Name="btn_minimizar"
-                   Click="btn_minimizar_Click"
+                   Click="Btn_minimizar_Click"
                     Cursor="Hand"  
                     Grid.Column="2"
                     Margin="11,24,4,24">
@@ -51,7 +51,7 @@
             <!-- Botón para cerrar-->
             <Button 
             x:Name="btn_cerrar" 
-            Click="btn_cerrar_Click"
+            Click="Btn_cerrar_Click"
             Cursor="Hand" 
             Grid.Column="3"
             Margin="5,24,8,24">
@@ -119,7 +119,7 @@
 
                     <Button
                         x:Name="btnRepartir"
-                        Click="btnRepartir_Click"
+                        Click="BtnRepartir_Click"
                         Grid.Column="0"
                         Grid.Row="4"
                         Width="150"
@@ -134,7 +134,7 @@
                         />
                     <Button
                         x:Name="btnPlantarse"
-                        Click="btnPlantarse_Click"
+                        Click="BtnPlantarse_Click"
                         Grid.Column="0"
                         Grid.Row="2"
                         Width="150"
@@ -291,10 +291,9 @@
                 VerticalAlignment="Center"
                 TextDecorations="Underline"
                 Grid.Row="1"
-                Text="HOLA"
                 FontSize="30"
                 Foreground="#fff"
-                Margin="30,30,900,530" Visibility="Hidden"
+                Margin="30,30,900,530"
                 />
 
             <TextBlock
@@ -302,10 +301,9 @@
                 Grid.Column="1"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Text="HOLA"
                 FontSize="30"
                 Foreground="#fff" Margin="46,68,0,0" Grid.Row="1"
-                TextDecorations="OverLine" Visibility="Hidden"
+                TextDecorations="OverLine"
                 />
             <TextBlock
                 x:Name="txtRangoCrupier2"
@@ -314,20 +312,18 @@
                 VerticalAlignment="Top"
                 TextDecorations="Underline"
                 Grid.Row="1"
-                Text="HOLA"
                 FontSize="30"
                 Foreground="#fff"
-                Margin="277,30,0,0" Visibility="Hidden" 
+                Margin="277,30,0,0" 
                 />
             <TextBlock
                 x:Name="txtPaloCrupier2"
                 Grid.Column="1"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Text="HOLA"
                 FontSize="30"
                 Foreground="#fff" Margin="277,84,0,0" Grid.Row="1"
-                TextDecorations="OverLine" Visibility="Hidden" 
+                TextDecorations="OverLine" 
                 />
             <ProgressBar
                 x:Name="barraProgresoCrupier"
@@ -349,20 +345,18 @@
                 VerticalAlignment="Top"
                 TextDecorations="Underline"
                 Grid.Row="1"
-                Text="HOLA"
                 FontSize="30"
                 Foreground="#fff"
-                Margin="658,31,0,0" Visibility="Hidden"
+                Margin="658,31,0,0"
                 />
             <TextBlock
                 x:Name="txtPaloCrupier3"
                 Grid.Column="1"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Text="HOLA"
                 FontSize="30"
                 Foreground="#fff" Margin="658,84,0,0" Grid.Row="1"
-                TextDecorations="OverLine" Visibility="Hidden"
+                TextDecorations="OverLine"
                 />
 
             <MediaElement x:Name="audio" Source="/Sonidos/sonidoVictoira.mp3"></MediaElement>
@@ -373,42 +367,32 @@
                 VerticalAlignment="Top"
                 TextDecorations="Underline"
                 Grid.Row="1"
-                Text="HOLA"
                 FontSize="30"
                 Foreground="#fff"
-                Margin="921,23,0,0" Visibility="Hidden"
+                Margin="921,23,0,0"
                 />
             <TextBlock
                 x:Name="txtPaloCrupier4"
                 Grid.Column="1"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
-                Text="HOLA"
                 FontSize="30"
                 Foreground="#fff" Margin="921,76,0,0" Grid.Row="1"
-                TextDecorations="OverLine" Visibility="Hidden"
+                TextDecorations="OverLine"
                 />
-            <materialDesign:Card
-               Grid.Column="1"
+            <TextBlock
+                x:Name="textoFin"
+                Grid.Column="1"
                 Grid.Row="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Width="250"
-                Padding="8"
-                Background="#FFC107"
-                Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}"
-                UniformCornerRadius="6" Visibility="Hidden">
-                <TextBlock
-                    x:Name="textoVictoria"
-                    Text="You Win"
-                    FontFamily="ALKATRA"
-                    FontSize="30"
-                    Foreground="#8B0000"
-                    TextWrapping="NoWrap"
-                    TextAlignment="Center"/>
-            </materialDesign:Card>
+                FontSize="60"
+                FontFamily="Alkatra"
+                Foreground="#8B0000"
+                
+                />
             <TextBlock
-                x:Name="textoProgresoCrupier"
+                x:Name="textoProgresoCr"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 Grid.Row="1"

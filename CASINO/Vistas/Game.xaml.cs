@@ -32,8 +32,11 @@ namespace CASINO.Vistas
         public static ConexionBD conx = new ConexionBD();
         public static int idUsuario;
         public static string pepiColons;
+        public static int saldoInt;
         public static string filePath = @"D:\Casino\CASINO\txt\iniciados.txt";
         public static int hora;
+        public static int pagoNormal;
+        public static int pagoPremium;
         public static string nombrePantalla;
         string reglas = "1- The objective of the game is to get a hand with a total value closer to 21 than the dealer's.\n\n" +
                         "2- Each numbered card has its face value, face cards are worth 10, and an ace can be worth 1 or 11, depending on what the player chooses.\n\n" +
@@ -115,7 +118,7 @@ namespace CASINO.Vistas
             var comando = new NpgsqlCommand("SELECT saldo FROM jugadoresActivos WHERE id_jugador='" + idUsuario + "'", conexion);
             var saldoUsuario = (string)comando.ExecuteScalar();
             conx.CerrarConexion();
-            var saldoInt = int.Parse(saldoUsuario);
+            saldoInt = int.Parse(saldoUsuario);
             if (saldoInt <= 0)
             {
                 txtCantMonedas.Foreground = Brushes.Red;
@@ -181,6 +184,10 @@ namespace CASINO.Vistas
             {
                 BlackJack black = new BlackJack();
                 black.Show();
+                saldoInt -= pagoNormal;
+                conx.EstablecerConexion();
+
+
                 Close();
             }
             else

@@ -40,6 +40,9 @@
     <Reference Include="Bass.Net, Version=2.4.10.3, Culture=neutral, PublicKeyToken=b7566c273e6ef480, processorArchitecture=MSIL">
       <HintPath>..\packages\Bass.Net.1.0.0\lib\Bass.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Faker, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Faker.1.2\lib\Faker.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialDesignColors, Version=2.1.2.0, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
       <HintPath>..\packages\MaterialDesignColors.2.1.2\lib\net462\MaterialDesignColors.dll</HintPath>
     </Reference>
@@ -220,6 +223,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="IDEAS\ideas.txt" />
+    <Content Include="Sonidos\sonidoDerrota.mp3" />
     <Content Include="Sonidos\sonidoVictoria.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

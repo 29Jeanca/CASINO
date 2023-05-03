@@ -2,20 +2,17 @@
 using CASINO.Clases.BaseDatos;
 using CASINO.Clases.Extras;
 using Npgsql;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using Faker;
+using System.Data;
+using System.Linq;
+using System.Windows.Threading;
+using System;
+using System.Timers;
 
 namespace CASINO.Vistas
 {
@@ -29,27 +26,27 @@ namespace CASINO.Vistas
         public static Baraja baraja = new Baraja();
         public static string[] rangoJugador = new string[4];
         public static int rangoJugadorTotal;
-        public static bool semaforo = true;
+        public static int rangoCrupierTotal;
         public static string[] rangoCrupier = new string[4];
         public static int[] IndicesJugador = new int[4];
         public static int[] IndicesCrupier = new int[4];
-        int rangoCrupierTotal;
         public static int contador = 0;
-        public static string rutaAudio = @"D:\Casino\CASINO\Sonidos\sonidoVictoria.mp3";
+        public bool semaforo = false;
+        public static string rutaAudioVictoria = @"D:\Casino\CASINO\Sonidos\sonidoVictoria.mp3";
+        public static string rutaAudioDerrota = @"D:\Casino\CASINO\Sonidos\sonidoDerrota.mp3";
         public BlackJack()
         {
             InitializeComponent();
             Loaded += BlackJack_Loaded;
-            txtRangoCrupier2.Visibility = Visibility.Hidden;
-            txtPaloCrupier2.Visibility = Visibility.Hidden;
+
 
         }
 
 
         private void BlackJack_Loaded(object sender, RoutedEventArgs e)
         {
-            nombreUsuario.Content = nombreEnPantalla();
-            inicializarVariables();
+            nombreUsuario.Content = NombreEnPantalla();
+            InicializarVariables();
             txtRangoCrupier.Text = contador.ToString();
 
         }
@@ -61,11 +58,11 @@ namespace CASINO.Vistas
             }
         }
 
-        private void btn_minimizar_Click(object sender, RoutedEventArgs e)
+        private void Btn_minimizar_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
         }
-        public void inicializarVariables()
+        public void InicializarVariables()
         {
             NpgsqlConnection conexion = conx.EstablecerConexion();
             var comando = new NpgsqlCommand("SELECT saldo FROM jugadoresActivos WHERE id_jugador='" + Game.idUsuario + "'", conexion);
@@ -79,11 +76,11 @@ namespace CASINO.Vistas
             CantidadpepiColons.Text = saldoInt.ToString();
 
         }
-        private void btn_cerrar_Click(object sender, RoutedEventArgs e)
+        private void Btn_cerrar_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
-        public string nombreEnPantalla()
+        public string NombreEnPantalla()
         {
             var id = Game.idUsuario;
             NpgsqlConnection conexion = conx.EstablecerConexion();
@@ -93,12 +90,15 @@ namespace CASINO.Vistas
             return nombre;
         }
 
-        private void btnRepartir_Click(object sender, RoutedEventArgs e)
+        private void BtnRepartir_Click(object sender, RoutedEventArgs e)
         {
-            JuegoUsuario();
-            JuegoCrupier();
-            contador++;
-            btnPlantarse.IsEnabled = true;
+            if (VerificarDinero())
+            {
+                JuegoUsuario();
+                JuegoCrupier();
+                contador++;
+                ControlarBotones(btnPlantarse, true);
+            }
         }
 
         public void JuegoUsuario()
@@ -112,7 +112,7 @@ namespace CASINO.Vistas
                 IndicesJugador[1] += ObtenerValorRango(rangoJugador[1]);
                 rangoJugadorTotal = IndicesJugador[0] + IndicesJugador[1];
                 AvanceBarraProgreso(barraProgreso, rangoJugadorTotal);
-                btnPlantarse.IsEnabled = true;
+                ControlarBotones(btnPlantarse, true);
             }
             if (contador == 1)
             {
@@ -128,29 +128,18 @@ namespace CASINO.Vistas
             {
                 RepartirCarta(txtRangoJugador4, txtPaloJugador4, rangoJugador, 3);
                 IndicesJugador[3] = ObtenerValorRango(rangoJugador[3]);
-                btnRepartir.IsEnabled = false;
+                ControlarBotones(btnRepartir, false);
                 rangoJugadorTotal += IndicesJugador[3];
                 AvanceBarraProgreso(barraProgreso, rangoJugadorTotal);
             }
-        }
-        public bool ValidarGanador()
-        {
-            if (rangoCrupierTotal == 21 || rangoCrupierTotal > rangoJugadorTotal && !btnRepartir.IsEnabled)
-            {
-                textoVictoria.Text = "You Lose";
-                ControladorSonido.ReproducirAudio(rutaAudio);
-                return false;
-            }
-            return true;
-
         }
         public void JuegoCrupier()
         {
             if (contador == 0)
             {
                 RepartirCarta(txtRangoCrupier, txtPaloCrupier, rangoCrupier, 0);
-                RepartirCarta(txtRangoCrupier2, txtPaloCrupier2, rangoCrupier, 1);
                 IndicesCrupier[0] = ObtenerValorRango(rangoCrupier[0]);
+                RepartirCarta(txtRangoCrupier2, txtPaloCrupier2, rangoCrupier, 1);
                 IndicesCrupier[1] = ObtenerValorRango(rangoCrupier[1]);
                 rangoCrupierTotal = IndicesCrupier[0] + IndicesCrupier[1];
                 AvanceBarraProgreso(barraProgresoCrupier, rangoCrupierTotal);
@@ -158,16 +147,62 @@ namespace CASINO.Vistas
             if (contador == 1 && rangoCrupierTotal < 17)
             {
                 RepartirCarta(txtRangoCrupier3, txtPaloCrupier3, rangoCrupier, 2);
+                IndicesCrupier[2] = ObtenerValorRango(rangoCrupier[2]);
                 rangoCrupierTotal += IndicesCrupier[2];
                 AvanceBarraProgreso(barraProgresoCrupier, rangoCrupierTotal);
             }
             if (contador == 2 && rangoCrupierTotal < 17)
             {
                 RepartirCarta(txtRangoCrupier4, txtPaloCrupier4, rangoCrupier, 3);
+                IndicesCrupier[3] = ObtenerValorRango(rangoCrupier[3]);
                 rangoCrupierTotal += IndicesCrupier[3];
                 AvanceBarraProgreso(barraProgresoCrupier, rangoCrupierTotal);
+
             }
         }
+
+
+        public bool ValidarGanador()
+        {
+
+            if (rangoJugadorTotal > 21 || rangoCrupierTotal > 21)
+            {
+                if (rangoJugadorTotal > 21)
+                {
+                    textoFin.Text = "YOU LOSE";
+                    return true;
+                }
+                else
+                {
+                    textoFin.Text = "YOU WIN";
+                    return true;
+
+                }
+
+            }
+            if (!btnRepartir.IsEnabled)
+            {
+                if (rangoJugadorTotal > rangoCrupierTotal)
+                {
+                    textoFin.Text = "YOU WIN";
+                    return true;
+
+                }
+                else
+                {
+                    textoFin.Text = "YOU LOSE";
+                    return true;
+
+                }
+            }
+
+
+            return false;
+
+
+        }
+
+
         private void RepartirCarta(TextBlock txtRango, TextBlock txtPalo, string[] rangoArray, int cartaIndex)
         {
             List<Carta> cartasRepartidas = baraja.Repartir(13);
@@ -206,9 +241,13 @@ namespace CASINO.Vistas
             Progreso.Value = total;
         }
 
-        private void btnPlantarse_Click(object sender, RoutedEventArgs e)
+        private void BtnPlantarse_Click(object sender, RoutedEventArgs e)
         {
-            btnRepartir.IsEnabled = false;
+            ControlarBotones(btnRepartir, false);
+        }
+        private void ControlarBotones(Button boton, bool habilitado)
+        {
+            boton.IsEnabled = habilitado;
         }
 
     }
